@@ -4,6 +4,10 @@ This package provides an identity provider for [Flask-Multipass](https://github.
 which allows you to use SAML groups. It is designed to be used
 as a plugin for [Indico](https://github.com/indico/indico).
 
+> **Warning**
+> The current code base has not been extensively tested and should be considered experimental.
+
+
 ## Motivation
 
 The current SAML identity provider in Flask-Multipass does not support groups (see [issue](https://github.com/indico/flask-multipass/issues/66)),
