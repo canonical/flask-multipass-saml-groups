@@ -9,10 +9,8 @@ jobs:
     name: Integration Tests
     steps:
       - uses: actions/checkout@v3
-      - name: Install requirements for xmlsec
-        run: |
-           sudo apt update
-           sudo apt install -y pkg-config libxml2-dev libxmlsec1-dev libxmlsec1-openssl libpython3-dev gcc
+      - name: Install required native libraries
+        run: sudo bash -xe install-libs.sh
       - name: Install tox
         run: python3 -m pip install tox
       - name: Run integration tests

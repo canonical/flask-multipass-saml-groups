@@ -26,11 +26,11 @@ source ~/.venv/bin/activate
 ```
 
 Some of the dependencies, like [xmlsec](https://xmlsec.readthedocs.io/en/stable/install.html),
-require native libraries to be installed on the system. To install these libraries on a
+require native libraries to be installed on the system. To install these libraries on an
 Ubuntu system, you can use the `install-packages.sh` file:
 
 ```bash
-bash install-libs.sh
+sudo bash install-libs.sh
 ```
 
 You can then install this package either via local source:
