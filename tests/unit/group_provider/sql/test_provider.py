@@ -2,6 +2,8 @@
 #  See LICENSE file for licensing details.
 
 """Unit tests for the sql group provider."""
+
+
 from secrets import token_hex
 
 import pytest
@@ -44,14 +46,17 @@ def group_provider_fixture(app, group_names, user_identifiers):
             ),
         )
         user1 = SAMLUser(identifier=user_identifiers[0])
-        db.session.add(user1)  # pylint: disable=no-member
         user2 = SAMLUser(identifier=user_identifiers[1])
-        db.session.add(user2)  # pylint: disable=no-member
+
+        # pylint does not recognize the methods of db.session, which is a proxy object
+        # pylint: disable=no-member
+        db.session.add(user1)
+        db.session.add(user2)
         grp1 = DBGroup(name=group_names[0])
         grp1.members.append(user1)
-        db.session.add(grp1)  # pylint: disable=no-member
-        db.session.add(DBGroup(name=group_names[1]))  # pylint: disable=no-member
-        db.session.commit()  # pylint: disable=no-member
+        db.session.add(grp1)
+        db.session.add(DBGroup(name=group_names[1]))
+        db.session.commit()
 
         yield group_provider
 

@@ -61,6 +61,9 @@ class SQLGroupProvider(GroupProvider):
         group_class (class): The class to use for groups.
     """
 
+    # pylint does not recognize the methods of db.session, which is a proxy object
+    # pylint: disable=no-member
+
     group_class = SQLGroup
 
     def __init__(self, identity_provider: IdentityProvider):
@@ -75,8 +78,8 @@ class SQLGroupProvider(GroupProvider):
     def add_group(self, name: str) -> None:  # noqa: D102,DCO010 same docstring as in base class
         grp = DBGroup.query.filter_by(name=name).first()
         if not grp:
-            db.session.add(DBGroup(name=name))  # pylint: disable=no-member
-            db.session.commit()  # pylint: disable=no-member
+            db.session.add(DBGroup(name=name))
+            db.session.commit()
 
     def get_group(self, name: str) -> Optional[SQLGroup]:  # noqa: D102,DCO010
         grp = DBGroup.query.filter_by(name=name).first()
@@ -105,14 +108,14 @@ class SQLGroupProvider(GroupProvider):
 
         if not user:
             user = SAMLUser(identifier=identifier)
-            db.session.add(user)  # pylint: disable=no-member
+            db.session.add(user)
         if not grp:
             grp = DBGroup(name=group_name)
-            db.session.add(grp)  # pylint: disable=no-member
+            db.session.add(grp)
 
         if user not in grp.members:
             grp.members.append(user)
-        db.session.commit()  # pylint: disable=no-member
+        db.session.commit()
 
     def remove_group_member(self, identifier: str, group_name: str) -> None:  # noqa: D102,DCO010
         user = SAMLUser.query.filter_by(identifier=identifier).first()
@@ -120,4 +123,4 @@ class SQLGroupProvider(GroupProvider):
 
         if grp and user in grp.members:
             grp.members.remove(user)
-        db.session.commit()  # pylint: disable=no-member
+        db.session.commit()

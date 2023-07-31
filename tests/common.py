@@ -15,17 +15,19 @@ def setup_sqlite(app: Flask):
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite://"
     with app.app_context():
         db.init_app(app)
-        db.session.execute("attach ':memory:' as plugin_saml_groups;")  # pylint: disable=no-member
-        db.session.execute(  # pylint: disable=no-member
+        # pylint does not recognize the methods of db.session, which is a proxy object
+        # pylint: disable=no-member
+        db.session.execute("attach ':memory:' as plugin_saml_groups;")
+        db.session.execute(
             "CREATE TABLE plugin_saml_groups.saml_users "
             "(id INTEGER PRIMARY KEY, identifier TEXT UNIQUE);"
         )
-        db.session.execute(  # pylint: disable=no-member
+        db.session.execute(
             "CREATE TABLE plugin_saml_groups.saml_groups "
             "(id INTEGER PRIMARY KEY, name TEXT UNIQUE);"
         )
-        db.session.execute(  # pylint: disable=no-member
+        db.session.execute(
             "CREATE TABLE plugin_saml_groups.saml_group_members "
             "(group_id INTEGER, user_id INTEGER);"
         )
-        db.session.commit()  # pylint: disable=no-member
+        db.session.commit()
