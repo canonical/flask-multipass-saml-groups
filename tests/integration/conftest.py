@@ -3,6 +3,7 @@
 
 """Common fixtures for integration tests."""
 from secrets import token_hex
+from unittest.mock import Mock
 
 import onelogin
 import pytest
@@ -76,6 +77,7 @@ def config_fixture():
         "MULTIPASS_AUTH_PROVIDERS": multipass_auth_providers,
         "MULTIPASS_IDENTITY_PROVIDERS": multipass_identity_providers,
         "MULTIPASS_PROVIDER_MAP": multipass_provider_map,
+        "MULTIPASS_REQUIRE_IDENTITY": True,
     }
 
 
@@ -98,7 +100,7 @@ def multipass_fixture(app, monkeypatch):
     multipass = Multipass()
     multipass.register_provider(SAMLGroupsIdentityProvider, "saml_groups")
     multipass.init_app(app)
-    multipass.identity_handler(lambda identity: None)
+    multipass.identity_handler(Mock(return_value=None))
     monkeypatch.setattr(
         onelogin.saml2.response.OneLogin_Saml2_Response, "is_valid", lambda *args, **kwargs: True
     )  # disable signature validation of SAML response

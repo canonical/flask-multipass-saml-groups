@@ -22,7 +22,7 @@ def test_login_extracts_groups_from_saml_attributes(app, multipass, user):
     grp_names = [token_hex(16), token_hex(6)]
     login(client, groups=grp_names, user_email=user.email)
 
-    _assert_user_only_in_groups(grp_names, app, multipass, user.identifier)
+    _assert_user_is_logged_in_with_groups(grp_names, app, multipass, user.identifier)
 
 
 def test_relogin_removes_previous_groups(app, multipass, user):
@@ -39,7 +39,7 @@ def test_relogin_removes_previous_groups(app, multipass, user):
     login(client, groups=grp_names, user_email=user.email)
     login(client, groups=other_grp_names, user_email=user.email)
 
-    _assert_user_only_in_groups(other_grp_names, app, multipass, user.identifier)
+    _assert_user_is_logged_in_with_groups(other_grp_names, app, multipass, user.identifier)
 
 
 def test_login_with_no_groups(app, multipass, user):
@@ -52,7 +52,7 @@ def test_login_with_no_groups(app, multipass, user):
 
     login(client, groups=[], user_email=user.email)
 
-    _assert_user_only_in_groups([], app, multipass, user.identifier)
+    _assert_user_is_logged_in_with_groups([], app, multipass, user.identifier)
 
 
 def test_login_with_multiple_identical_groups(app, multipass, user):
@@ -67,11 +67,42 @@ def test_login_with_multiple_identical_groups(app, multipass, user):
 
     login(client, groups=[grp_name, grp_name], user_email=user.email)
 
+    _assert_user_is_logged_in(app, multipass)
+
     with app.app_context():
         idp = multipass.identity_providers["ubuntu"]
 
         grps = list(idp.get_identity_groups(user.identifier))
         assert len(grps) == 1
+
+
+def _assert_user_is_logged_in_with_groups(
+    groups: List[str], app: Flask, multipass: Multipass, user_identifier: str
+):
+    """Assert that the user is logged in with the given groups.
+
+    Args:
+        groups: The groups the user should be in
+        app: The app
+        multipass: The multipass instance
+        user_identifier: The identifier of the user which is expected to belong to the groups.
+    """
+    _assert_user_is_logged_in(app, multipass)
+    _assert_user_only_in_groups(groups, app, multipass, user_identifier)
+
+
+def _assert_user_is_logged_in(app: Flask, multipass: Multipass):
+    """Assert that the user is logged in.
+
+    Args:
+        app: The app
+        multipass: The multipass instance
+
+    """
+    with app.app_context():
+        # The identity callback is only called when `get_identity_from_auth` returns
+        # an identity_info object.
+        multipass.identity_callback.assert_called()
 
 
 def _assert_user_only_in_groups(
