@@ -117,6 +117,26 @@ def test_get_identity_from_auth_returns_identity_info(provider, auth_info, saml_
     assert identity_info.data == MultiDict(saml_attrs)
 
 
+def test_get_identity_from_auth_returns_identity_info_for_user_without_groups(
+    provider, auth_info, saml_attrs
+):
+    """
+    arrange: given AuthInfo by AuthProvider for user without groups
+    act: call get_identity_from_auth from identity provider
+    assert: the returned IdentityInfo object contains the expected data from AuthInfo
+    """
+    auth_info.data.pop(SAML_GRP_ATTR_NAME)
+
+    identity_info = provider.get_identity_from_auth(auth_info)
+
+    assert identity_info is not None
+    assert identity_info.provider == provider
+    assert identity_info.identifier == auth_info.data[DEFAULT_IDENTIFIER_FIELD]
+    assert identity_info.data == MultiDict(
+        {k: v for k, v in saml_attrs.items() if k != SAML_GRP_ATTR_NAME}
+    )
+
+
 def test_get_identity_from_auth_returns_identity_from_custom_field(
     auth_info, provider_custom_field
 ):
@@ -241,6 +261,32 @@ def test_get_identity_from_auth_removes_user_from_group(auth_info, provider, gro
     members = list(group.get_members())
     assert members
     assert members[0].identifier == auth_info.data[DEFAULT_IDENTIFIER_FIELD]
+
+
+def test_get_identity_from_auth_removes_user_from_group_if_no_groups_are_passed(
+    auth_info, provider, group_names
+):
+    """
+    arrange: given AuthInfo by AuthProvider
+    act: call get_identity_from_auth and afterwards again with no groups passed
+    assert: the user is removed from all groups
+    """
+    provider.get_identity_from_auth(auth_info)
+
+    for grp_name in group_names:
+        group = provider.get_group(grp_name)
+        members = list(group.get_members())
+        assert members
+        assert members[0].identifier == auth_info.data[DEFAULT_IDENTIFIER_FIELD]
+
+    auth_info_grp_removed = copy(auth_info)
+    auth_info_grp_removed.data[SAML_GRP_ATTR_NAME] = []
+    provider.get_identity_from_auth(auth_info_grp_removed)
+
+    for grp_name in group_names:
+        group = provider.get_group(grp_name)
+        members = list(group.get_members())
+        assert not members
 
 
 def test_get_group_returns_specific_group(auth_info, provider, group_names):

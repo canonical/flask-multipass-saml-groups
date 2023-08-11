@@ -93,16 +93,18 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
             if isinstance(grp_names, str):
                 # If only one group is returned, it is returned as a string by saml auth provider
                 grp_names = [grp_names]
+        else:
+            grp_names = []
 
-            user_groups = self._group_provider.get_user_groups(identifier=identifier)
-            for group in user_groups:
-                if group.name not in grp_names:
-                    self._group_provider.remove_group_member(
-                        group_name=group.name, identifier=identifier
-                    )
+        user_groups = self._group_provider.get_user_groups(identifier=identifier)
+        for group in user_groups:
+            if group.name not in grp_names:
+                self._group_provider.remove_group_member(
+                    group_name=group.name, identifier=identifier
+                )
 
-            for grp_name in grp_names:
-                self._group_provider.add_group_member(group_name=grp_name, identifier=identifier)
+        for grp_name in grp_names:
+            self._group_provider.add_group_member(group_name=grp_name, identifier=identifier)
 
         return identity_info
 
