@@ -2,17 +2,20 @@
 #  See LICENSE file for licensing details.
 
 """Unit tests for the identity provider."""
-from copy import copy
+from copy import deepcopy
+from datetime import datetime, timedelta, timezone
+from random import randint
 from secrets import token_hex
 from unittest.mock import Mock
 
 import pytest
-from flask import Flask
+from flask import Flask, session
 from flask_multipass import AuthInfo, IdentityRetrievalFailed, Multipass
 from werkzeug.datastructures import MultiDict
 
 from flask_multipass_saml_groups.provider import (
     DEFAULT_IDENTIFIER_FIELD,
+    DEFAULT_SESSION_EXPIRY,
     SAML_GRP_ATTR_NAME,
     SAMLGroupsIdentityProvider,
 )
@@ -76,31 +79,76 @@ def auth_info_other_user_fixture(saml_attrs_other_user):
     return AuthInfo(provider=Mock(), **saml_attrs_other_user)
 
 
-@pytest.fixture(name="provider")
-def provider_fixture():
-    """Setup a SAMLGroupsIdentityProvider."""
+@pytest.fixture(name="app")
+def app_fixture():
+    """Create a flask app with a properly setup sqlite db."""
     app = Flask("test")
+    app.secret_key = token_hex(16)
+    setup_sqlite(app)
+    return app
+
+
+@pytest.fixture(name="provider")
+def provider_fixture(app):
+    """Setup a SAMLGroupsIdentityProvider."""
     multipass = Multipass(app)
 
-    setup_sqlite(app)
-    with app.app_context():
+    # We need a request context in order to access the session
+    with app.test_request_context("/dummy", method="GET"):
         yield SAMLGroupsIdentityProvider(multipass=multipass, name="saml_groups", settings={})
 
 
 @pytest.fixture(name="provider_custom_field")
-def provider_custom_field_fixture():
+def provider_custom_field_fixture(app):
     """Setup a SAMLGroupsIdentityProvider with a custom identifier_field."""
-    app = Flask("test")
     multipass = Multipass(app)
 
-    setup_sqlite(app)
-
-    with app.app_context():
+    # We need a request context in order to access the session
+    with app.test_request_context("/dummy", method="GET"):
         yield SAMLGroupsIdentityProvider(
             multipass=multipass,
             name="saml_groups",
             settings={"identifier_field": "fullname"},
         )
+
+
+@pytest.fixture(name="session_expiry")
+def session_expiry_fixture():
+    """Create a random session expiry time."""
+    return randint(0, 365 * 24 * 60 * 60)  # nosec B311 secret is not used for security
+
+
+@pytest.fixture(name="provider_session_expiry")
+def provider_session_expiry_fixture(app, session_expiry):
+    """Setup a SAMLGroupsIdentityProvider with a specific session_expiry setting."""
+    multipass = Multipass(app)
+
+    # We need a request context in order to access the session
+    with app.test_request_context("/dummy", method="GET"):
+        yield SAMLGroupsIdentityProvider(
+            multipass=multipass,
+            name="saml_groups",
+            settings={"session_expiry": session_expiry},
+        )
+
+
+def test_init_provider_with_wrong_session_expiry_settings_raises_value_error(app):
+    """
+    arrange: given a dict with wrong session_expiry setting
+    act: call SAMLGroupsIdentityProvider with the settings
+    assert: a ValueError is raised
+    """
+    multipass = Multipass(app)
+    wrong_settings = ["not a number", -1]
+
+    with app.app_context():
+        for wrong_setting in wrong_settings:
+            with pytest.raises(ValueError):
+                SAMLGroupsIdentityProvider(
+                    multipass=multipass,
+                    name="saml_groups",
+                    settings={"session_expiry": wrong_setting},
+                )
 
 
 def test_get_identity_from_auth_returns_identity_info(provider, auth_info, saml_attrs):
@@ -249,7 +297,7 @@ def test_get_identity_from_auth_removes_user_from_group(auth_info, provider, gro
     assert members
     assert members[0].identifier == auth_info.data[DEFAULT_IDENTIFIER_FIELD]
 
-    auth_info_grp_removed = copy(auth_info)
+    auth_info_grp_removed = deepcopy(auth_info)
     auth_info_grp_removed.data[SAML_GRP_ATTR_NAME] = group_names[1]
     provider.get_identity_from_auth(auth_info_grp_removed)
 
@@ -279,7 +327,7 @@ def test_get_identity_from_auth_removes_user_from_group_if_no_groups_are_passed(
         assert members
         assert members[0].identifier == auth_info.data[DEFAULT_IDENTIFIER_FIELD]
 
-    auth_info_grp_removed = copy(auth_info)
+    auth_info_grp_removed = deepcopy(auth_info)
     auth_info_grp_removed.data[SAML_GRP_ATTR_NAME] = []
     provider.get_identity_from_auth(auth_info_grp_removed)
 
@@ -287,6 +335,57 @@ def test_get_identity_from_auth_removes_user_from_group_if_no_groups_are_passed(
         group = provider.get_group(grp_name)
         members = list(group.get_members())
         assert not members
+
+
+def test_get_identity_from_auth_sets_default_session_expiry(provider, auth_info, monkeypatch):
+    """
+    arrange: given AuthInfo with User with groups
+    act: call get_identity_from_auth from SAMLGroupsIdentityProvider
+    assert: the session expiry is set to the current time plus the default session_expiry seconds
+    """
+    dt_mock = Mock(spec_set=datetime)
+    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
+    monkeypatch.setattr("flask_multipass_saml_groups.provider.datetime", dt_mock)
+
+    provider.get_identity_from_auth(auth_info)
+
+    assert session.get(
+        "_flask_multipass_saml_groups_saml_groups_session_expiry"
+    ) == dt_now + timedelta(seconds=DEFAULT_SESSION_EXPIRY)
+
+
+def test_get_identity_from_auth_sets_session_expiry(
+    provider_session_expiry, session_expiry, auth_info, monkeypatch
+):
+    """
+    arrange: given AuthInfo with User with groups and a provider with explicit session_expiry set
+    act: call get_identity_from_auth from SAMLGroupsIdentityProvider
+    assert: the session expiry is set to the current time plus the session_expiry seconds
+    """
+    dt_mock = Mock(spec_set=datetime)
+    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
+    monkeypatch.setattr("flask_multipass_saml_groups.provider.datetime", dt_mock)
+
+    provider_session_expiry.get_identity_from_auth(auth_info)
+
+    assert session.get(
+        "_flask_multipass_saml_groups_saml_groups_session_expiry"
+    ) == dt_now + timedelta(seconds=session_expiry)
+
+
+def test_get_identity_from_auth_sets_no_session_expiry_for_users_without_groups(
+    provider_session_expiry, auth_info
+):
+    """
+    arrange: given AuthInfo with User without groups and provider with session_expiry set
+    act: call get_identity_from_auth from SAMLGroupsIdentityProvider
+    assert: the session expiry is not set
+    """
+    auth_info.data[SAML_GRP_ATTR_NAME] = []
+
+    provider_session_expiry.get_identity_from_auth(auth_info)
+
+    assert not session.get("_flask_multipass_saml_groups_saml_groups_session_expiry")
 
 
 def test_get_group_returns_specific_group(auth_info, provider, group_names):
