@@ -88,7 +88,7 @@ def app_fixture():
     app.secret_key = token_hex(16)
     setup_sqlite(app)
 
-    app.add_url_rule("/dummy", "dummy", lambda: "dummy")
+    app.add_url_rule("/sample", "sample", lambda: "sample")
 
     return app
 
@@ -105,7 +105,7 @@ def provider_fixture(app):
     multipass = Multipass(app)
 
     # We need a request context in order to access the session
-    with app.test_request_context("/dummy", method="GET"):
+    with app.test_request_context("/sample", method="GET"):
         yield SAMLGroupsIdentityProvider(multipass=multipass, name="saml_groups", settings={})
 
 
@@ -115,7 +115,7 @@ def provider_custom_field_fixture(app):
     multipass = Multipass(app)
 
     # We need a request context in order to access the session
-    with app.test_request_context("/dummy", method="GET"):
+    with app.test_request_context("/sample", method="GET"):
         yield SAMLGroupsIdentityProvider(
             multipass=multipass,
             name="saml_groups",
@@ -135,7 +135,7 @@ def provider_session_expiry_fixture(app, session_expiry):
     multipass = Multipass(app)
 
     # We need a request context in order to access the session
-    with app.test_request_context("/dummy", method="GET"):
+    with app.test_request_context("/sample", method="GET"):
         yield SAMLGroupsIdentityProvider(
             multipass=multipass,
             name="saml_groups",
@@ -465,7 +465,7 @@ def test_session_is_cleared_if_expired(app):
     """
     dt_now = datetime.now(timezone.utc)
 
-    with app.test_request_context("/dummy", method="GET"):
+    with app.test_request_context("/sample", method="GET"):
         session[EXPIRY_SESSION_KEY] = dt_now - timedelta(seconds=1)
 
         app.preprocess_request()
@@ -485,7 +485,7 @@ def test_redirect_to_login_if_session_expired(app, client):
     with client.session_transaction() as sess:
         sess[EXPIRY_SESSION_KEY] = dt_now - timedelta(seconds=1)
 
-    resp = client.get("/dummy")
+    resp = client.get("/sample")
     assert resp.status_code == 302
     assert resp.location == url_for(app.config["MULTIPASS_LOGIN_ENDPOINT"])
 
@@ -499,7 +499,7 @@ def test_ignore_session_if_not_expired(app):
     assert: the session is not cleared
     """
     dt_now = datetime.now(timezone.utc)
-    with app.test_request_context("/dummy", method="GET"):
+    with app.test_request_context("/sample", method="GET"):
         session[EXPIRY_SESSION_KEY] = dt_now + timedelta(seconds=30)
 
         app.preprocess_request()
@@ -520,6 +520,6 @@ def test_no_redirect_to_login_if_session_not_expired(client):
     with client.session_transaction() as sess:
         sess[EXPIRY_SESSION_KEY] = dt_now + timedelta(seconds=30)
 
-    resp = client.get("/dummy")
+    resp = client.get("/sample")
     assert resp.status_code == 200
     assert not resp.location
