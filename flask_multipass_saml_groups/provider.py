@@ -23,7 +23,7 @@ from flask_multipass_saml_groups.group_provider.sql import SQLGroupProvider
 DEFAULT_IDENTIFIER_FIELD = "_saml_nameid_qualified"
 SAML_GRP_ATTR_NAME = "urn:oasis:names:tc:SAML:2.0:profiles:attribute:DCE:groups"
 SESSION_EXPIRY_SETTING = "session_expiry"
-DEFAULT_SESSION_EXPIRY = 60  # 31 days
+DEFAULT_SESSION_EXPIRY = 24 * 60 * 60  # 24 hours
 EXPIRY_SESSION_KEY = "_flask_multipass_saml_groups_session_expiry"
 
 
