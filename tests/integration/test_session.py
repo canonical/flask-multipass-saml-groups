@@ -6,7 +6,7 @@ from datetime import datetime, timedelta, timezone
 from secrets import token_hex
 
 import pytest
-from flask import session
+from flask import current_app, session, url_for
 from freezegun import freeze_time
 from werkzeug import Response
 
@@ -83,7 +83,7 @@ def _assert_session_invalidation(response: Response):
         response: The response to check.
     """
     assert response.status_code == 302
-    assert response.location == "/auth/login"
+    assert response.location == url_for(current_app.config["MULTIPASS_LOGIN_ENDPOINT"])
     assert not session
 
 

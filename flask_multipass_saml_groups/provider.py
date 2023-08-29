@@ -188,5 +188,5 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
         if expires and expires < datetime.now(timezone.utc):
             session.clear()
 
-            return redirect(url_for("auth.login"))
+            return redirect(url_for(current_app.config["MULTIPASS_LOGIN_ENDPOINT"]))
         return None

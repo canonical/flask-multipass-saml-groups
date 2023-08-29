@@ -9,7 +9,7 @@ from secrets import token_hex
 from unittest.mock import Mock
 
 import pytest
-from flask import Flask, session
+from flask import Flask, session, url_for
 from flask_multipass import AuthInfo, IdentityRetrievalFailed, Multipass
 from werkzeug.datastructures import MultiDict
 
@@ -483,7 +483,7 @@ def test_session_is_cleared_if_expired(app, dt_mock):
 
 
 @pytest.mark.usefixtures("provider")
-def test_redirect_to_login_if_session_expired(client, dt_mock):
+def test_redirect_to_login_if_session_expired(app, client, dt_mock):
     """
     arrange: a session with an expiry date in the past
     act: a request is made, triggering the before_request signal
@@ -496,7 +496,7 @@ def test_redirect_to_login_if_session_expired(client, dt_mock):
 
     resp = client.get("/dummy")
     assert resp.status_code == 302
-    assert resp.location == "/auth/login"
+    assert resp.location == url_for(app.config["MULTIPASS_LOGIN_ENDPOINT"])
 
 
 @pytest.mark.usefixtures("provider")
