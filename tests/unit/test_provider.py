@@ -87,8 +87,8 @@ def app_fixture():
     app.secret_key = token_hex(16)
     setup_sqlite(app)
 
-    app.route("/dummy", endpoint="dummy")(lambda: "dummy")
-    app.route("/auth/login", endpoint="auth.login")(lambda: "login")
+    app.add_url_rule("/dummy", "dummy", lambda: "dummy")
+    app.add_url_rule("/auth/login", "auth.login", lambda: "login")
 
     return app
 
