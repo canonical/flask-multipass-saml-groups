@@ -90,7 +90,6 @@ def app_fixture(config):
     app.debug = True
     app.secret_key = "fma-example"  # nosec
     app.add_url_rule("/", "index", lambda: "")
-    app.add_url_rule("/dummy", "dummy", lambda: "")
     return app
 
 

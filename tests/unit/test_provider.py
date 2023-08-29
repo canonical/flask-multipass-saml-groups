@@ -89,7 +89,6 @@ def app_fixture():
     setup_sqlite(app)
 
     app.add_url_rule("/dummy", "dummy", lambda: "dummy")
-    app.add_url_rule("/auth/login", "auth.login", lambda: "login")
 
     return app
 

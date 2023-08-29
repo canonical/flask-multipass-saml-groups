@@ -30,7 +30,7 @@ def test_redirect_after_invalid_session(app, user):
 
         frozen_datetime.tick(delta=timedelta(seconds=DEFAULT_SESSION_EXPIRY + 1))
         with client:
-            resp = client.get("/dummy")
+            resp = client.get("/")
 
             _assert_session_invalidation(resp)
 
@@ -51,7 +51,7 @@ def test_no_redirect_before_session_expiry(app, user):
 
         frozen_datetime.tick(delta=timedelta(seconds=DEFAULT_SESSION_EXPIRY - 1))
         with client:
-            resp = client.get("/dummy")
+            resp = client.get("/")
 
             _assert_no_session_invalidation(resp)
 
@@ -71,7 +71,7 @@ def test_no_session_invalidation_for_users_without_groups(app, user):
 
         frozen_datetime.tick(delta=timedelta(seconds=DEFAULT_SESSION_EXPIRY + 1))
         with client:
-            resp = client.get("/dummy")
+            resp = client.get("/")
 
             _assert_no_session_invalidation(resp)
 
