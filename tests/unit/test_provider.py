@@ -11,6 +11,7 @@ from unittest.mock import Mock
 import pytest
 from flask import Flask, session, url_for
 from flask_multipass import AuthInfo, IdentityRetrievalFailed, Multipass
+from freezegun import freeze_time
 from werkzeug.datastructures import MultiDict
 
 from flask_multipass_saml_groups.provider import (
@@ -141,14 +142,6 @@ def provider_session_expiry_fixture(app, session_expiry):
             name="saml_groups",
             settings={"session_expiry": session_expiry},
         )
-
-
-@pytest.fixture(name="dt_mock")
-def dt_mock_fixture(monkeypatch):
-    """Mock datetime."""
-    dt_mock = Mock(spec_set=datetime)
-    monkeypatch.setattr("flask_multipass_saml_groups.provider.datetime", dt_mock)
-    return dt_mock
 
 
 def test_init_provider_with_wrong_session_expiry_settings_raises_value_error(app):
@@ -356,32 +349,30 @@ def test_get_identity_from_auth_removes_user_from_group_if_no_groups_are_passed(
         assert not members
 
 
-def test_get_identity_from_auth_sets_default_session_expiry(provider, auth_info, monkeypatch):
+@freeze_time("Jan 14th, 2024")
+def test_get_identity_from_auth_sets_default_session_expiry(provider, auth_info):
     """
     arrange: given AuthInfo with User with groups
     act: call get_identity_from_auth from SAMLGroupsIdentityProvider
     assert: the session expiry is set to the current time plus the default session_expiry seconds
     """
-    dt_mock = Mock(spec_set=datetime)
-    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
-    monkeypatch.setattr("flask_multipass_saml_groups.provider.datetime", dt_mock)
+    dt_now = datetime.now(timezone.utc)
 
     provider.get_identity_from_auth(auth_info)
 
     assert session.get(EXPIRY_SESSION_KEY) == dt_now + timedelta(seconds=DEFAULT_SESSION_EXPIRY)
 
 
+@freeze_time("Jan 14th, 2024")
 def test_get_identity_from_auth_sets_session_expiry(
-    provider_session_expiry, session_expiry, auth_info, monkeypatch
+    provider_session_expiry, session_expiry, auth_info
 ):
     """
     arrange: given AuthInfo with User with groups and a provider with explicit session_expiry set
     act: call get_identity_from_auth from SAMLGroupsIdentityProvider
     assert: the session expiry is set to the current time plus the session_expiry seconds
     """
-    dt_mock = Mock(spec_set=datetime)
-    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
-    monkeypatch.setattr("flask_multipass_saml_groups.provider.datetime", dt_mock)
+    dt_now = datetime.now(timezone.utc)
 
     provider_session_expiry.get_identity_from_auth(auth_info)
 
@@ -465,14 +456,15 @@ def test_search_groups_non_exact_returns_all_matched_groups(auth_info, provider,
     assert groups[0].name == group_names[0]
 
 
+@freeze_time("Jan 14th, 2024")
 @pytest.mark.usefixtures("provider")
-def test_session_is_cleared_if_expired(app, dt_mock):
+def test_session_is_cleared_if_expired(app):
     """
     arrange: a session with an expiry date in the past
     act: the flask before_request signal is triggered
     assert: the session is cleared
     """
-    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
+    dt_now = datetime.now(timezone.utc)
 
     with app.test_request_context("/dummy", method="GET"):
         session[EXPIRY_SESSION_KEY] = dt_now - timedelta(seconds=1)
@@ -482,15 +474,15 @@ def test_session_is_cleared_if_expired(app, dt_mock):
         assert session == {}
 
 
+@freeze_time("Jan 14th, 2024")
 @pytest.mark.usefixtures("provider")
-def test_redirect_to_login_if_session_expired(app, client, dt_mock):
+def test_redirect_to_login_if_session_expired(app, client):
     """
     arrange: a session with an expiry date in the past
     act: a request is made, triggering the before_request signal
     assert: the response is a redirect to the login page
     """
-    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
-
+    dt_now = datetime.now(timezone.utc)
     with client.session_transaction() as sess:
         sess[EXPIRY_SESSION_KEY] = dt_now - timedelta(seconds=1)
 
@@ -499,34 +491,35 @@ def test_redirect_to_login_if_session_expired(app, client, dt_mock):
     assert resp.location == url_for(app.config["MULTIPASS_LOGIN_ENDPOINT"])
 
 
+@freeze_time("Jan 14th, 2024")
 @pytest.mark.usefixtures("provider")
-def test_ignore_session_if_not_expired(app, dt_mock):
+def test_ignore_session_if_not_expired(app):
     """
     arrange: a session with an expiry date in the future
     act: the before_request signal is triggered
     assert: the session is not cleared
     """
-    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
-
+    dt_now = datetime.now(timezone.utc)
     with app.test_request_context("/dummy", method="GET"):
-        session[EXPIRY_SESSION_KEY] = dt_now + timedelta(seconds=1)
+        session[EXPIRY_SESSION_KEY] = dt_now + timedelta(seconds=30)
 
         app.preprocess_request()
 
-        assert session == {EXPIRY_SESSION_KEY: dt_now + timedelta(seconds=1)}
+        assert session == {EXPIRY_SESSION_KEY: dt_now + timedelta(seconds=30)}
 
 
+@freeze_time("Jan 14th, 2024")
 @pytest.mark.usefixtures("provider")
-def test_no_redirect_to_login_if_session_not_expired(client, dt_mock):
+def test_no_redirect_to_login_if_session_not_expired(client):
     """
     arrange: a session with an expiry date in the future
     act: a request is made, triggering the before_request signal
     assert: the response is not a redirect to the login page
     """
-    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
+    dt_now = datetime.now(timezone.utc)
 
     with client.session_transaction() as sess:
-        sess[EXPIRY_SESSION_KEY] = dt_now + timedelta(seconds=1)
+        sess[EXPIRY_SESSION_KEY] = dt_now + timedelta(seconds=30)
 
     resp = client.get("/dummy")
     assert resp.status_code == 200
