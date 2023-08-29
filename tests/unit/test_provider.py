@@ -86,7 +86,17 @@ def app_fixture():
     app = Flask("test")
     app.secret_key = token_hex(16)
     setup_sqlite(app)
+
+    app.route("/dummy", endpoint="dummy")(lambda: "dummy")
+    app.route("/auth/login", endpoint="auth.login")(lambda: "login")
+
     return app
+
+
+@pytest.fixture(name="client")
+def client_fixture(app):
+    """Create the flask test client."""
+    return app.test_client()
 
 
 @pytest.fixture(name="provider")
@@ -131,6 +141,14 @@ def provider_session_expiry_fixture(app, session_expiry):
             name="saml_groups",
             settings={"session_expiry": session_expiry},
         )
+
+
+@pytest.fixture(name="dt_mock")
+def dt_mock_fixture(monkeypatch):
+    """Mock datetime."""
+    dt_mock = Mock(spec_set=datetime)
+    monkeypatch.setattr("flask_multipass_saml_groups.provider.datetime", dt_mock)
+    return dt_mock
 
 
 def test_init_provider_with_wrong_session_expiry_settings_raises_value_error(app):
@@ -445,3 +463,71 @@ def test_search_groups_non_exact_returns_all_matched_groups(auth_info, provider,
 
     assert len(groups) == 1
     assert groups[0].name == group_names[0]
+
+
+@pytest.mark.usefixtures("provider")
+def test_session_is_cleared_if_expired(app, dt_mock):
+    """
+    arrange: a session with an expiry date in the past
+    act: the flask before_request signal is triggered
+    assert: the session is cleared
+    """
+    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
+
+    with app.test_request_context("/dummy", method="GET"):
+        session[EXPIRY_SESSION_KEY] = dt_now - timedelta(seconds=1)
+
+        app.preprocess_request()
+
+        assert session == {}
+
+
+@pytest.mark.usefixtures("provider")
+def test_redirect_to_login_if_session_expired(client, dt_mock):
+    """
+    arrange: a session with an expiry date in the past
+    act: a request is made, triggering the before_request signal
+    assert: the response is a redirect to the login page
+    """
+    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
+
+    with client.session_transaction() as sess:
+        sess[EXPIRY_SESSION_KEY] = dt_now - timedelta(seconds=1)
+
+    resp = client.get("/dummy")
+    assert resp.status_code == 302
+    assert resp.location == "/auth/login"
+
+
+@pytest.mark.usefixtures("provider")
+def test_ignore_session_if_not_expired(app, dt_mock):
+    """
+    arrange: a session with an expiry date in the future
+    act: the before_request signal is triggered
+    assert: the session is not cleared
+    """
+    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
+
+    with app.test_request_context("/dummy", method="GET"):
+        session[EXPIRY_SESSION_KEY] = dt_now + timedelta(seconds=1)
+
+        app.preprocess_request()
+
+        assert session == {EXPIRY_SESSION_KEY: dt_now + timedelta(seconds=1)}
+
+
+@pytest.mark.usefixtures("provider")
+def test_no_redirect_to_login_if_session_not_expired(client, dt_mock):
+    """
+    arrange: a session with an expiry date in the future
+    act: a request is made, triggering the before_request signal
+    assert: the response is not a redirect to the login page
+    """
+    dt_now = dt_mock.now.return_value = datetime.now(timezone.utc)
+
+    with client.session_transaction() as sess:
+        sess[EXPIRY_SESSION_KEY] = dt_now + timedelta(seconds=1)
+
+    resp = client.get("/dummy")
+    assert resp.status_code == 200
+    assert not resp.location

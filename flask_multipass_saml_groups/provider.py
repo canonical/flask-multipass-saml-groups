@@ -6,7 +6,7 @@ import operator
 from datetime import datetime, timedelta, timezone
 from typing import Dict, Iterable, Optional, Type
 
-from flask import session
+from flask import current_app, redirect, session, url_for
 from flask_multipass import (
     AuthInfo,
     Group,
@@ -15,6 +15,7 @@ from flask_multipass import (
     IdentityRetrievalFailed,
     Multipass,
 )
+from werkzeug import Response
 
 from flask_multipass_saml_groups.group_provider.base import GroupProvider
 from flask_multipass_saml_groups.group_provider.sql import SQLGroupProvider
@@ -22,7 +23,7 @@ from flask_multipass_saml_groups.group_provider.sql import SQLGroupProvider
 DEFAULT_IDENTIFIER_FIELD = "_saml_nameid_qualified"
 SAML_GRP_ATTR_NAME = "urn:oasis:names:tc:SAML:2.0:profiles:attribute:DCE:groups"
 SESSION_EXPIRY_SETTING = "session_expiry"
-DEFAULT_SESSION_EXPIRY = 31 * 24 * 60 * 60  # 31 days
+DEFAULT_SESSION_EXPIRY = 60  # 31 days
 EXPIRY_SESSION_KEY = "_flask_multipass_saml_groups_session_expiry"
 
 
@@ -76,6 +77,7 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
             raise ValueError(
                 f"{SESSION_EXPIRY_SETTING} {self.session_expiry} must be a positive integer"
             )
+        current_app.before_request(self._invalidate_session)
 
     def get_identity_from_auth(self, auth_info: AuthInfo) -> IdentityInfo:
         """Retrieve identity information after authentication.
@@ -174,3 +176,17 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
             expiry: The expiry time in seconds.
         """
         session[EXPIRY_SESSION_KEY] = datetime.now(timezone.utc) + timedelta(seconds=expiry)
+
+    @staticmethod
+    def _invalidate_session() -> Optional[Response]:
+        """Clear the session if it has expired and redirect to login.
+
+        Returns:
+            A redirect response if the session has expired, None otherwise.
+        """
+        expires = session.get(EXPIRY_SESSION_KEY)
+        if expires and expires < datetime.now(timezone.utc):
+            session.clear()
+
+            return redirect(url_for("auth.login"))
+        return None
