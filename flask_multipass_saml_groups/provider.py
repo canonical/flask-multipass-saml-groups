@@ -23,6 +23,7 @@ DEFAULT_IDENTIFIER_FIELD = "_saml_nameid_qualified"
 SAML_GRP_ATTR_NAME = "urn:oasis:names:tc:SAML:2.0:profiles:attribute:DCE:groups"
 SESSION_EXPIRY_SETTING = "session_expiry"
 DEFAULT_SESSION_EXPIRY = 31 * 24 * 60 * 60  # 31 days
+EXPIRY_SESSION_KEY = "_flask_multipass_saml_groups_session_expiry"
 
 
 class SAMLGroupsIdentityProvider(IdentityProvider):
@@ -172,6 +173,4 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
         Args:
             expiry: The expiry time in seconds.
         """
-        session[f"_flask_multipass_saml_groups_{self.name}_session_expiry"] = datetime.now(
-            timezone.utc
-        ) + timedelta(seconds=expiry)
+        session[EXPIRY_SESSION_KEY] = datetime.now(timezone.utc) + timedelta(seconds=expiry)

@@ -16,6 +16,7 @@ from werkzeug.datastructures import MultiDict
 from flask_multipass_saml_groups.provider import (
     DEFAULT_IDENTIFIER_FIELD,
     DEFAULT_SESSION_EXPIRY,
+    EXPIRY_SESSION_KEY,
     SAML_GRP_ATTR_NAME,
     SAMLGroupsIdentityProvider,
 )
@@ -349,9 +350,7 @@ def test_get_identity_from_auth_sets_default_session_expiry(provider, auth_info,
 
     provider.get_identity_from_auth(auth_info)
 
-    assert session.get(
-        "_flask_multipass_saml_groups_saml_groups_session_expiry"
-    ) == dt_now + timedelta(seconds=DEFAULT_SESSION_EXPIRY)
+    assert session.get(EXPIRY_SESSION_KEY) == dt_now + timedelta(seconds=DEFAULT_SESSION_EXPIRY)
 
 
 def test_get_identity_from_auth_sets_session_expiry(
@@ -368,9 +367,7 @@ def test_get_identity_from_auth_sets_session_expiry(
 
     provider_session_expiry.get_identity_from_auth(auth_info)
 
-    assert session.get(
-        "_flask_multipass_saml_groups_saml_groups_session_expiry"
-    ) == dt_now + timedelta(seconds=session_expiry)
+    assert session.get(EXPIRY_SESSION_KEY) == dt_now + timedelta(seconds=session_expiry)
 
 
 def test_get_identity_from_auth_sets_no_session_expiry_for_users_without_groups(
@@ -385,7 +382,7 @@ def test_get_identity_from_auth_sets_no_session_expiry_for_users_without_groups(
 
     provider_session_expiry.get_identity_from_auth(auth_info)
 
-    assert not session.get("_flask_multipass_saml_groups_saml_groups_session_expiry")
+    assert not session.get(EXPIRY_SESSION_KEY)
 
 
 def test_get_group_returns_specific_group(auth_info, provider, group_names):
