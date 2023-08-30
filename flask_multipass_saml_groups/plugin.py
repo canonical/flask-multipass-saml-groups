@@ -5,7 +5,7 @@
 from indico.core.plugins import IndicoPlugin
 
 
-class SAMLGroupsPlugin(IndicoPlugin):  # pylint: disable=too-few-public-methods
+class SAMLGroupsPlugin(IndicoPlugin):
     """SAML Groups Plugin.
 
     The plugin provides an identity provider for SAML which supports groups.
