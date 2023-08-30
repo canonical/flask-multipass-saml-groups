@@ -78,7 +78,7 @@ together with the SAML auth Provider, in order to receive the SAML groups in the
 data.
 
 You can also set the `session_expiry` setting to invalidate the web session after a certain number of seconds.
-This setting is required (if not specified, it defaults to 31 days) because the SAML groups are only retrieved once at login and group membership is not updated thereafter.
+This setting is required (if not specified, it defaults to 1 day) because the SAML groups are only retrieved once at login and group membership is not updated thereafter.
 Therefore, the session must be invalidated at some point.
 
 
