@@ -3,8 +3,10 @@
 #
 """SAML Groups Identity Provider."""
 import operator
+from datetime import datetime, timedelta, timezone
 from typing import Dict, Iterable, Optional, Type
 
+from flask import current_app, redirect, session, url_for
 from flask_multipass import (
     AuthInfo,
     Group,
@@ -13,13 +15,16 @@ from flask_multipass import (
     IdentityRetrievalFailed,
     Multipass,
 )
+from werkzeug import Response
 
 from flask_multipass_saml_groups.group_provider.base import GroupProvider
 from flask_multipass_saml_groups.group_provider.sql import SQLGroupProvider
 
 DEFAULT_IDENTIFIER_FIELD = "_saml_nameid_qualified"
-
 SAML_GRP_ATTR_NAME = "urn:oasis:names:tc:SAML:2.0:profiles:attribute:DCE:groups"
+SESSION_EXPIRY_SETTING = "session_expiry"
+DEFAULT_SESSION_EXPIRY = 24 * 60 * 60  # 24 hours
+EXPIRY_SESSION_KEY = "_flask_multipass_saml_groups_session_expiry"
 
 
 class SAMLGroupsIdentityProvider(IdentityProvider):
@@ -54,13 +59,25 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
             multipass: The Flask-Multipass instance
             name: The name of this identity provider instance
             settings: The settings dictionary for this identity
-                             provider instance
+                    provider instance
             group_provider_class: The class to use for the group provider.
+
+        Raise:
+            ValueError: If the session_expiry setting is not a positive integer.
         """
         super().__init__(multipass=multipass, name=name, settings=settings)
         self.id_field = self.settings.setdefault("identifier_field", DEFAULT_IDENTIFIER_FIELD)
         self._group_provider = group_provider_class(identity_provider=self)
         self.group_class = self._group_provider.group_class
+
+        self.session_expiry: int = self.settings.get(
+            SESSION_EXPIRY_SETTING, DEFAULT_SESSION_EXPIRY
+        )
+        if not isinstance(self.session_expiry, int) or self.session_expiry <= 0:
+            raise ValueError(
+                f"{SESSION_EXPIRY_SETTING} {self.session_expiry} must be a positive integer"
+            )
+        current_app.before_request(self._invalidate_session)
 
     def get_identity_from_auth(self, auth_info: AuthInfo) -> IdentityInfo:
         """Retrieve identity information after authentication.
@@ -93,6 +110,10 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
             if isinstance(grp_names, str):
                 # If only one group is returned, it is returned as a string by saml auth provider
                 grp_names = [grp_names]
+
+            if self.session_expiry:
+                self._set_flask_session_expiry(self.session_expiry)
+
         else:
             grp_names = []
 
@@ -147,3 +168,25 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
              iterable: An iterable of groups
         """
         return self._group_provider.get_user_groups(identifier=identifier)
+
+    def _set_flask_session_expiry(self, expiry: int) -> None:
+        """Set the flask session expiry.
+
+        Args:
+            expiry: The expiry time in seconds.
+        """
+        session[EXPIRY_SESSION_KEY] = datetime.now(timezone.utc) + timedelta(seconds=expiry)
+
+    @staticmethod
+    def _invalidate_session() -> Optional[Response]:
+        """Clear the session if it has expired and redirect to login.
+
+        Returns:
+            A redirect response if the session has expired, None otherwise.
+        """
+        expires = session.get(EXPIRY_SESSION_KEY)
+        if expires and expires < datetime.now(timezone.utc):
+            session.clear()
+
+            return redirect(url_for(current_app.config["MULTIPASS_LOGIN_ENDPOINT"]))
+        return None

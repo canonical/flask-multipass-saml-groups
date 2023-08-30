@@ -77,6 +77,11 @@ but you should use the type `saml_groups` instead of `saml`. The identity provid
 together with the SAML auth Provider, in order to receive the SAML groups in the authentication
 data.
 
+You can also set the `session_expiry` setting to invalidate the web session after a certain number of seconds.
+This setting is required (if not specified, it defaults to 31 days) because the SAML groups are only retrieved once at login and group membership is not updated thereafter.
+Therefore, the session must be invalidated at some point.
+
+
 The following is an example section in `indico.conf`:
 ```python
 
@@ -133,6 +138,7 @@ IDENTITY_PROVIDERS = {
                 "email": "email",
             },
             "identifier_field": "openid",
+            "session_expiry": 3600, # 1 hour
        }
 }
 ```
