@@ -5,14 +5,7 @@ on:
 
 jobs:
   integration-tests:
-    runs-on: ubuntu-latest
-    name: Integration Tests
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install required native libraries
-        run: sudo bash -xe install-libs.sh
-      - name: Install tox
-        run: python3 -m pip install tox
-      - name: Run integration tests
-        run: |
-          tox -e integration
+    uses: canonical/operator-workflows/.github/workflows/integration_test.yaml@main
+    secrets: inherit
+    with:
+      pre-run-script: .github/test-pre-script.sh
