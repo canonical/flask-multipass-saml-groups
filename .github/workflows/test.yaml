@@ -9,3 +9,5 @@ jobs:
     secrets: inherit
     with:
       pre-run-script: .github/test-pre-script.sh
+      self-hosted-runner: true
+      self-hosted-runner-label: "edge"
