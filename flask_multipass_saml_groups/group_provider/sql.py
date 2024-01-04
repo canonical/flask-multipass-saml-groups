@@ -1,4 +1,4 @@
-#  Copyright 2023 Canonical Ltd.
+#  Copyright 2024 Canonical Ltd.
 #  See LICENSE file for licensing details.
 
 """A group provider that persists groups and their members in a SQL database provided by Indico."""
