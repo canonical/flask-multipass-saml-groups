@@ -6,7 +6,7 @@ import operator
 from datetime import datetime, timedelta, timezone
 from typing import Dict, Iterable, Optional, Type
 
-from flask import current_app, redirect, session, url_for
+from flask import current_app, redirect, request, session, url_for
 from flask_multipass import (
     AuthInfo,
     Group,
@@ -187,6 +187,7 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
         expires = session.get(EXPIRY_SESSION_KEY)
         if expires and expires < datetime.now(timezone.utc):
             session.clear()
+            session["_multipass_next_url"] = request.url
 
             return redirect(url_for(current_app.config["MULTIPASS_LOGIN_ENDPOINT"]))
         return None
