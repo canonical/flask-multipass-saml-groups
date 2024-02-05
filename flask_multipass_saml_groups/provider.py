@@ -19,6 +19,7 @@ from werkzeug import Response
 
 from flask_multipass_saml_groups.group_provider.base import GroupProvider
 from flask_multipass_saml_groups.group_provider.sql import SQLGroupProvider
+from urllib.parse import urlsplit
 
 DEFAULT_IDENTIFIER_FIELD = "_saml_nameid_qualified"
 SAML_GRP_ATTR_NAME = "urn:oasis:names:tc:SAML:2.0:profiles:attribute:DCE:groups"
@@ -187,7 +188,12 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
         expires = session.get(EXPIRY_SESSION_KEY)
         if expires and expires < datetime.now(timezone.utc):
             session.clear()
-            session["_multipass_next_url"] = request.url
+
+            next_url = request.url
+            url_info = urlsplit(next_url)
+            url_is_valid = not url_info.netloc or url_info.netloc == request.host
+            if next_url and url_is_valid:
+                session["_multipass_next_url"] = next_url
 
             return redirect(url_for(current_app.config["MULTIPASS_LOGIN_ENDPOINT"]))
         return None
