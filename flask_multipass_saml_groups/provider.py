@@ -5,6 +5,7 @@
 import operator
 from datetime import datetime, timedelta, timezone
 from typing import Dict, Iterable, Optional, Type
+from urllib.parse import urlsplit
 
 from flask import current_app, redirect, request, session, url_for
 from flask_multipass import (
@@ -19,7 +20,6 @@ from werkzeug import Response
 
 from flask_multipass_saml_groups.group_provider.base import GroupProvider
 from flask_multipass_saml_groups.group_provider.sql import SQLGroupProvider
-from urllib.parse import urlsplit
 
 DEFAULT_IDENTIFIER_FIELD = "_saml_nameid_qualified"
 SAML_GRP_ATTR_NAME = "urn:oasis:names:tc:SAML:2.0:profiles:attribute:DCE:groups"
