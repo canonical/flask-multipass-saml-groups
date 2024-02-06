@@ -83,6 +83,7 @@ def _assert_session_invalidation(response: Response, next_url: str):
 
     Args:
         response: The response to check.
+        next_url: URL to redirect to after login
     """
     assert response.status_code == 302
     assert url_for(current_app.config["MULTIPASS_LOGIN_ENDPOINT"]) in response.location
