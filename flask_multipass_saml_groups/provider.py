@@ -189,6 +189,6 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
             session.clear()
 
             return redirect(
-                f"{url_for(current_app.config['MULTIPASS_LOGIN_ENDPOINT'])}?next={request.url}"
+                url_for(current_app.config["MULTIPASS_LOGIN_ENDPOINT"], next=request.url)
             )
         return None
