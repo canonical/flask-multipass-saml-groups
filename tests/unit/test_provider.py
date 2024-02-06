@@ -457,7 +457,7 @@ def test_search_groups_non_exact_returns_all_matched_groups(auth_info, provider,
 
 @freeze_time("Jan 14th, 2024")
 @pytest.mark.usefixtures("provider")
-def test_session_only_has_redirect_key_if_expired(app):
+def test_session_is_cleared_if_expired(app):
     """
     arrange: a session with an expiry date in the past
     act: the flask before_request signal is triggered
@@ -470,7 +470,7 @@ def test_session_only_has_redirect_key_if_expired(app):
 
         app.preprocess_request()
 
-        assert list(session.keys()) == ["_multipass_next_url"]
+        assert session == {}
 
 
 @freeze_time("Jan 14th, 2024")
