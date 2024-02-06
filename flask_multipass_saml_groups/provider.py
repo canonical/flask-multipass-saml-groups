@@ -5,7 +5,6 @@
 import operator
 from datetime import datetime, timedelta, timezone
 from typing import Dict, Iterable, Optional, Type
-from urllib.parse import urlsplit
 
 from flask import current_app, redirect, request, session, url_for
 from flask_multipass import (
