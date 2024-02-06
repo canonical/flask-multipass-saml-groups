@@ -188,11 +188,8 @@ class SAMLGroupsIdentityProvider(IdentityProvider):
         expires = session.get(EXPIRY_SESSION_KEY)
         if expires and expires < datetime.now(timezone.utc):
             session.clear()
-            redirect_url = url_for(current_app.config["MULTIPASS_LOGIN_ENDPOINT"])
-            next_url = request.url
-            url_info = urlsplit(next_url)
-            url_is_valid = not url_info.netloc or url_info.netloc == request.host
-            if next_url and url_is_valid:
-                redirect_url += f"?next={next_url}"
-            return redirect(redirect_url)
+
+            return redirect(
+                f"{url_for(current_app.config['MULTIPASS_LOGIN_ENDPOINT'])}?next={request.url}"
+            )
         return None
