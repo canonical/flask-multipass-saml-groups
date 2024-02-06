@@ -30,9 +30,10 @@ def test_redirect_after_invalid_session(app, user):
 
         frozen_datetime.tick(delta=timedelta(seconds=DEFAULT_SESSION_EXPIRY + 1))
         with client:
-            resp = client.get("/")
+            next_url = "/sample"
+            resp = client.get(next_url)
 
-            _assert_session_invalidation(resp)
+            _assert_session_invalidation(resp, next_url)
 
 
 @pytest.mark.usefixtures("multipass")
@@ -76,14 +77,16 @@ def test_no_session_invalidation_for_users_without_groups(app, user):
             _assert_no_session_invalidation(resp)
 
 
-def _assert_session_invalidation(response: Response):
-    """Assert that the session is invalidated and the user is redirected to the login page.
+def _assert_session_invalidation(response: Response, next_url: str):
+    """Assert that the session is invalidated and the user is redirected to the login url
+    specifying the next URL after successful login.
 
     Args:
         response: The response to check.
     """
     assert response.status_code == 302
-    assert response.location == url_for(current_app.config["MULTIPASS_LOGIN_ENDPOINT"])
+    assert url_for(current_app.config["MULTIPASS_LOGIN_ENDPOINT"]) in response.location
+    assert next_url in response.location
     assert not session
 
 
