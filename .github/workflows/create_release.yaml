@@ -27,7 +27,7 @@ jobs:
               run: |
                 poetry version minor
                 VERSION=$(poetry version --short)
-                echo version=${VERSION} >> $GITHUB_OUTPUT
+                echo VERSION=${VERSION} >> $GITHUB_ENV
                 git tag $VERSION
                 git push origin $VERSION
 
@@ -42,4 +42,4 @@ jobs:
               with:
                 token: ${{ secrets.GITHUB_TOKEN }}
                 draft: true
-                tag: steps.bump-vesion.outputs.version
+                tag: ${{ env.VERSION }}
