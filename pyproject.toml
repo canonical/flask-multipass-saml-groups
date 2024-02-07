@@ -62,7 +62,7 @@ disable = "wrong-import-order"
 
 [tool.poetry]
 name = "flask-multipass-saml-groups"
-version = "0.2.0"
+version = "0.3.0"
 description = "This package provides an identity provider for Flask-Multipass, which allows you to use SAML groups. It is designed to be used as a plugin for Indico."
 authors = ["Your Name <you@example.com>"]
 license = "Apache-2.0 license"
