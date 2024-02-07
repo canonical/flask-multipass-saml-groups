@@ -485,9 +485,11 @@ def test_redirect_to_login_if_session_expired(app, client):
     with client.session_transaction() as sess:
         sess[EXPIRY_SESSION_KEY] = dt_now - timedelta(seconds=1)
 
-    resp = client.get("/sample")
+    next_url = "/sample"
+    resp = client.get(next_url)
     assert resp.status_code == 302
-    assert resp.location == url_for(app.config["MULTIPASS_LOGIN_ENDPOINT"])
+    assert url_for(app.config["MULTIPASS_LOGIN_ENDPOINT"]) in resp.location
+    assert next_url in resp.location
 
 
 @freeze_time("Jan 14th, 2024")
