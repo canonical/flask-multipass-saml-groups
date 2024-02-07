@@ -24,12 +24,16 @@ jobs:
             - name: Bump Version
               id: bump-version
               run: |
+                # Bump minor version with poetry
                 poetry version minor
                 VERSION=$(poetry version --short)
                 echo VERSION=${VERSION} >> $GITHUB_ENV
+
+                # Tag the commit with the new version
                 git tag $VERSION
                 git push origin $VERSION
 
+                # Push version update in pyproject.toml
                 git config --global user.name 'IS DevOps Bot'
                 git config --global user.email 'is-devops-bot@users.noreply.github.com'
                 git add .
