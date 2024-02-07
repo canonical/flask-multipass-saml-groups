@@ -28,10 +28,13 @@ jobs:
                 poetry version minor
                 VERSION=$(poetry version --short)
                 echo version=${VERSION} >> $GITHUB_OUTPUT
-                git tag '$VERSION'
-                git push origin '$VERSION'
+                git tag $VERSION
+                git push origin $VERSION
+
+                git config --global user.name 'IS charms bot'
+                git config --global user.email 'is-charms-bot@users.noreply.github.com'
                 git add .
-                git commit -m "Bump version to ${VERSION}"
+                git commit -m "bump version to ${VERSION}"
                 git push
 
             - name: Create Release
