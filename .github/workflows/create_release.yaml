@@ -44,5 +44,6 @@ jobs:
               uses: ncipollo/release-action@v1
               with:
                 token: ${{ secrets.GITHUB_TOKEN }}
-                draft: true
+                draft: false
                 tag: ${{ env.VERSION }}
+                generateReleaseNotes: true
