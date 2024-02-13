@@ -8,6 +8,7 @@ header:
   paths:
     - '**'
   paths-ignore:
+    - '.github/**'
     - '.licenserc.yaml'
     - "poetry.lock"
   comment: on-failure
