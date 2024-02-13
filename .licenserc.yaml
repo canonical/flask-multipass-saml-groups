@@ -35,5 +35,4 @@ header:
     - 'zap_rules.tsv'
     - 'lib/**'
     - "poetry.lock"
-
   comment: on-failure
