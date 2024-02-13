@@ -591,6 +591,17 @@ files = [
 ]
 
 [[package]]
+name = "defusedxml"
+version = "0.6.0"
+description = "XML bomb protection for Python stdlib modules"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*"
+files = [
+    {file = "defusedxml-0.6.0-py2.py3-none-any.whl", hash = "sha256:6687150770438374ab581bb7a1b327a847dd9c5749e396102de3fad4e8a3ef93"},
+    {file = "defusedxml-0.6.0.tar.gz", hash = "sha256:f684034d135af4c6cbb949b8a4d2ed61634515257a67299e5f940fbaa34377f5"},
+]
+
+[[package]]
 name = "deprecated"
 version = "1.2.13"
 description = "Python @deprecated decorator to deprecate old python classes, functions or methods."
@@ -813,6 +824,7 @@ files = [
 [package.dependencies]
 blinker = "*"
 flask = "*"
+python3-saml = {version = ">=1.10.1,<1.11", optional = true, markers = "extra == \"saml\""}
 
 [package.extras]
 authlib = ["authlib (>=0.14.1)", "requests"]
@@ -1349,6 +1361,20 @@ parallel = ["ipyparallel"]
 qtconsole = ["qtconsole"]
 test = ["pytest (<7.1)", "pytest-asyncio", "testpath"]
 test-extra = ["curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.21)", "pandas", "pytest (<7.1)", "pytest-asyncio", "testpath", "trio"]
+
+[[package]]
+name = "isodate"
+version = "0.6.1"
+description = "An ISO 8601 date/time/duration parser and formatter"
+optional = false
+python-versions = "*"
+files = [
+    {file = "isodate-0.6.1-py2.py3-none-any.whl", hash = "sha256:0751eece944162659049d35f4f549ed815792b38793f07cf73381c1c87cbed96"},
+    {file = "isodate-0.6.1.tar.gz", hash = "sha256:48c5881de7e8b0a0d648cb024c8062dc84e7b840ed81e864c7614fd3c127bde9"},
+]
+
+[package.dependencies]
+six = "*"
 
 [[package]]
 name = "itsdangerous"
@@ -2180,6 +2206,27 @@ files = [
 six = ">=1.5"
 
 [[package]]
+name = "python3-saml"
+version = "1.10.1"
+description = "Onelogin Python Toolkit. Add SAML support to your Python software using this library"
+optional = false
+python-versions = "*"
+files = [
+    {file = "python3-saml-1.10.1.tar.gz", hash = "sha256:336ef44f894b5e09cf339a67b007d8299096b7b44f43ee7426eae410771e4466"},
+    {file = "python3_saml-1.10.1-py2-none-any.whl", hash = "sha256:cbbea3e38a020a93fe745f59c6969bb1c60e726a49d34bbab76d03dc2bbe2a66"},
+    {file = "python3_saml-1.10.1-py3-none-any.whl", hash = "sha256:5e04d586fa7c6017ae4e00d16769d4ff04ba0b9903a2d1c1e61b6ad9e9ff23fe"},
+]
+
+[package.dependencies]
+defusedxml = "0.6.0"
+isodate = ">=0.5.0"
+lxml = ">=3.3.5"
+xmlsec = ">=1.0.5"
+
+[package.extras]
+test = ["coverage (>=4.5.2)", "coveralls (==1.5.1)", "flake8 (==3.6.0)", "freezegun (==0.3.11)", "pylint (==1.9.4)"]
+
+[[package]]
 name = "pytz"
 version = "2023.3"
 description = "World timezone definitions, modern and historical"
@@ -2998,6 +3045,31 @@ files = [
 ]
 
 [[package]]
+name = "xmlsec"
+version = "1.3.13"
+description = "Python bindings for the XML Security Library"
+optional = false
+python-versions = ">=3.5"
+files = [
+    {file = "xmlsec-1.3.13-cp310-cp310-win32.whl", hash = "sha256:2174e8c88555383322d8b7d3927490a92ef72ad72a6ddaf4fa1b96a3f27c3e90"},
+    {file = "xmlsec-1.3.13-cp310-cp310-win_amd64.whl", hash = "sha256:46d1daf16a8f4430efca5bb9c6a15776f2671f69f48a1941d6bb335e6f8cb29d"},
+    {file = "xmlsec-1.3.13-cp35-cp35m-win32.whl", hash = "sha256:d47062c42775a025aa94fb8b15de97c1db86e301e549d3168157e0b1223d51b1"},
+    {file = "xmlsec-1.3.13-cp35-cp35m-win_amd64.whl", hash = "sha256:7c7e8ef52688ddaf5b66750cc8d901f61716f46727014ff012f41d8858cedeb0"},
+    {file = "xmlsec-1.3.13-cp36-cp36m-win32.whl", hash = "sha256:1725d70ee2bb2cd8dd66c7a7451be02bb59dc8280103db4f68e731f00135b1e0"},
+    {file = "xmlsec-1.3.13-cp36-cp36m-win_amd64.whl", hash = "sha256:1f8c41162152d7086fd459926e61bc7cb2d52ffc829e760bf8b2c221a645d568"},
+    {file = "xmlsec-1.3.13-cp37-cp37m-win32.whl", hash = "sha256:ff1c61f296e75cba5bac802d0000bfde09143eed946ced1a5162211867c335f8"},
+    {file = "xmlsec-1.3.13-cp37-cp37m-win_amd64.whl", hash = "sha256:d249c0a2bf3ff13a231bca6a588e7d276b3f1e2cf09316b542f470a63855799e"},
+    {file = "xmlsec-1.3.13-cp38-cp38-win32.whl", hash = "sha256:56cfcf3487b6ad269eb1fb543c04dee2c101f1bc91e06d6cf7bfab9ac486efd8"},
+    {file = "xmlsec-1.3.13-cp38-cp38-win_amd64.whl", hash = "sha256:e6626bece0e97a8598b5df28c27bc6f2ae1e97d29dca3c1a4910a7598a4d1d0f"},
+    {file = "xmlsec-1.3.13-cp39-cp39-win32.whl", hash = "sha256:091f23765729df6f3b3a55c8a6a96f9c713fa86e76b86a19cdb756aaa6dc0646"},
+    {file = "xmlsec-1.3.13-cp39-cp39-win_amd64.whl", hash = "sha256:5162f416179350587c4ff64737af68a846a9b86f95fd465df4e68b589ce56618"},
+    {file = "xmlsec-1.3.13.tar.gz", hash = "sha256:916f5d78e8041f6cd9391abba659da8c94a4fef7196d126d40af1ff417f2cf86"},
+]
+
+[package.dependencies]
+lxml = ">=3.8"
+
+[[package]]
 name = "zipp"
 version = "3.15.0"
 description = "Backport of pathlib-compatible object wrapper for zip files"
@@ -3015,4 +3087,4 @@ testing = ["big-O", "flake8 (<5)", "jaraco.functools", "jaraco.itertools", "more
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.10, <3.12"
-content-hash = "1f57fdbc4e509e4b3bcd655f078015248968ee5bdb132692986ca8bb0567ea31"
+content-hash = "9452479b6717d48d48fc094f31f3b9d5365826941587ab84f33a771378c06e04"
