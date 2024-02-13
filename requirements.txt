@@ -1,3 +1,0 @@
-flask-multipass[saml]>=0.4.8
-indico>=3.2
-flask_sqlalchemy
