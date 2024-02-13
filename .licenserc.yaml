@@ -8,5 +8,6 @@ header:
   paths:
     - '**'
   paths-ignore:
+    - '.licenserc.yaml'
     - "poetry.lock"
   comment: on-failure
