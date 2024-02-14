@@ -1,0 +1,49 @@
+name: Release a new version of the plugin
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+    create-release:
+        name: Create Github release
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4.1.1
+            - name: Set up Python 3.10
+              uses: actions/setup-python@v5
+              with:
+                python-version: "3.10"
+
+            - name: Install Poetry
+              run: |
+                curl -sSL https://install.python-poetry.org | python - -y
+                echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+            - name: Bump Version
+              id: bump-version
+              run: |
+                # Bump minor version with poetry
+                poetry version minor
+                VERSION=$(poetry version --short)
+                echo VERSION=${VERSION} >> $GITHUB_ENV
+
+                # Tag the commit with the new version
+                git tag $VERSION
+                git push origin $VERSION
+
+                # Push version update in pyproject.toml
+                git config --global user.name 'IS DevOps Bot'
+                git config --global user.email 'is-devops-bot@users.noreply.github.com'
+                git add pyproject.toml
+                git commit -m "action: bump version to ${VERSION}"
+                git push
+
+            - name: Create Release
+              uses: ncipollo/release-action@v1
+              with:
+                token: ${{ secrets.GITHUB_TOKEN }}
+                draft: false
+                tag: ${{ env.VERSION }}
+                generateReleaseNotes: true

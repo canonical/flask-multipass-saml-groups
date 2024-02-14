@@ -59,3 +59,21 @@ markers = [
 
 [tool.pylint]
 disable = "wrong-import-order"
+
+[tool.poetry]
+name = "flask-multipass-saml-groups"
+version = "0.1.0"
+description = "This package provides an identity provider for Flask-Multipass, which allows you to use SAML groups. It is designed to be used as a plugin for Indico."
+authors = ["launchpad.net/~canonical-is-devops <is-devops-team@canonical.com>"]
+license = "Apache-2.0 license"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.10, <3.12"
+flask-multipass = {extras = ["saml"], version = "0.4.9"}
+indico = "3.2.9"
+flask_sqlalchemy = "3.0.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
