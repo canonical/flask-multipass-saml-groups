@@ -64,7 +64,7 @@ disable = "wrong-import-order"
 name = "flask-multipass-saml-groups"
 version = "0.2.0"
 description = "This package provides an identity provider for Flask-Multipass, which allows you to use SAML groups. It is designed to be used as a plugin for Indico."
-authors = ["launchpad.net/~canonical-is-devops <is-devops-team@canonical.com>"]
+authors = ["canonical-is-devops <is-devops-team@canonical.com>"]
 license = "Apache-2.0 license"
 readme = "README.md"
 
