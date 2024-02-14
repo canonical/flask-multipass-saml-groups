@@ -72,7 +72,7 @@ readme = "README.md"
 python = ">=3.10, <3.12"
 flask-multipass = {extras = ["saml"], version = "0.4.9"}
 indico = "3.2.9"
-flask_sqlalchemy = "3.0.3"
+flask_sqlalchemy = "3.1.1"
 
 [build-system]
 requires = ["poetry-core"]
