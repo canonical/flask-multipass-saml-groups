@@ -71,9 +71,9 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.10, <3.12"
 flask-multipass = {extras = ["saml"], version = "0.4.9"}
-# The package version here can force and upgrade of indico when the plugin is used
+# The package version here can force an upgrade of indico when the plugin is used
 # thus we must only specify compatibility rather than pinning the exact version
-indico = ">=3.2.8, 4.0.0"
+indico = ">=3.2.8, 4"
 flask_sqlalchemy = "3.0.3"
 
 [build-system]
