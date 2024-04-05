@@ -13,7 +13,7 @@ branch = true
 # Formatting tools configuration
 [tool.black]
 line-length = 99
-target-version = ["py38"]
+target-version = ["py312"]
 
 [tool.coverage.report]
 fail_under = 95
@@ -62,19 +62,19 @@ disable = "wrong-import-order"
 
 [tool.poetry]
 name = "flask-multipass-saml-groups"
-version = "0.3.0"
+version = "1.0.0"
 description = "This package provides an identity provider for Flask-Multipass, which allows you to use SAML groups. It is designed to be used as a plugin for Indico."
 authors = ["canonical-is-devops <is-devops-team@canonical.com>"]
 license = "Apache-2.0 license"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.10, <3.12"
-flask-multipass = {extras = ["saml"], version = "0.4.9"}
+python = "~=3.12.2"
+flask-multipass = {extras = ["saml"], version = "0.5.4"}
 # The package version here can force an upgrade of indico when the plugin is used
 # thus we must only specify compatibility rather than pinning the exact version
-indico = ">=3.2.8, <4"
-flask_sqlalchemy = "3.0.3"
+indico = ">=3.3.1, <4"
+flask_sqlalchemy = "3.0.5"
 
 [build-system]
 requires = ["poetry-core"]
