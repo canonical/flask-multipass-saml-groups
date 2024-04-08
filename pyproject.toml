@@ -76,6 +76,12 @@ flask-multipass = {extras = ["saml"], version = "0.5.4"}
 indico = ">=3.3.1, <4"
 flask_sqlalchemy = "3.0.5"
 
+[tool.poetry.plugins."indico.plugins"]
+saml_groups = "flask_multipass_saml_groups.plugin:SAMLGroupsPlugin"
+
+[tool.poetry.plugins."flask_multipass.identity_providers"]
+saml_groups = "flask_multipass_saml_groups.provider:SAMLGroupsIdentityProvider"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
