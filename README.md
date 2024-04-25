@@ -14,7 +14,7 @@ but groups are a very useful feature for Indico. This plugin provides a solution
 ## Installation
 
 ### Development
-This package is managed though [Poetry](https://python-poetry.org/). You can run `poetry install` to run it and `poetry buid` to build it.
+This package is managed though [Poetry](https://python-poetry.org/). You can run `poetry install` to run it and `poetry build` to build it.
 
 
 ### Package installation
