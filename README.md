@@ -13,6 +13,10 @@ but groups are a very useful feature for Indico. This plugin provides a solution
 
 ## Installation
 
+### Development
+This package is managed though [Poetry](https://python-poetry.org/). You can run `poetry install` to run it and `poetry build` to build it.
+
+
 ### Package installation
 You need to install the package on the same virtual environment as your Indico instance.
 You might use the following commands to switch to the Indico environment
@@ -33,9 +37,7 @@ sudo bash install-libs.sh
 You can then install this package either via local source:
 
 ```bash
-git clone https://github.com/canonical/flask-multipass-saml-groups.git
-cd flask-multipass-saml-groups
-python setup.py install 
+poetry install
 ```
 
 or with pip:
