@@ -72,13 +72,13 @@ tests-no-zope = ["attrs[tests-mypy]", "cloudpickle", "hypothesis", "pympler", "p
 
 [[package]]
 name = "authlib"
-version = "1.3.0"
+version = "1.3.1"
 description = "The ultimate Python library in building OAuth and OpenID Connect servers and clients."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "Authlib-1.3.0-py2.py3-none-any.whl", hash = "sha256:9637e4de1fb498310a56900b3e2043a206b03cb11c05422014b0302cbc814be3"},
-    {file = "Authlib-1.3.0.tar.gz", hash = "sha256:959ea62a5b7b5123c5059758296122b57cd2585ae2ed1c0622c21b371ffdae06"},
+    {file = "Authlib-1.3.1-py2.py3-none-any.whl", hash = "sha256:d35800b973099bbadc49b42b256ecb80041ad56b7fe1216a362c7943c088f377"},
+    {file = "authlib-1.3.1.tar.gz", hash = "sha256:7ae843f03c06c5c0debd63c9db91f9fda64fa62a42a77419fa15fbb7e7a58917"},
 ]
 
 [package.dependencies]
@@ -912,13 +912,13 @@ Flask = "*"
 
 [[package]]
 name = "flask-cors"
-version = "4.0.0"
+version = "4.0.1"
 description = "A Flask extension adding a decorator for CORS support"
 optional = false
 python-versions = "*"
 files = [
-    {file = "Flask-Cors-4.0.0.tar.gz", hash = "sha256:f268522fcb2f73e2ecdde1ef45e2fd5c71cc48fe03cffb4b441c6d1b40684eb0"},
-    {file = "Flask_Cors-4.0.0-py2.py3-none-any.whl", hash = "sha256:bc3492bfd6368d27cfe79c7821df5a8a319e1a6d5eab277a3794be19bdc51783"},
+    {file = "Flask_Cors-4.0.1-py2.py3-none-any.whl", hash = "sha256:f2a704e4458665580c074b714c4627dd5a306b333deb9074d0b1794dfa2fb677"},
+    {file = "flask_cors-4.0.1.tar.gz", hash = "sha256:eeb69b342142fdbf4766ad99357a7f3876a2ceb77689dc10ff912aac06c389e4"},
 ]
 
 [package.dependencies]
@@ -1457,12 +1457,12 @@ testing = ["jaraco.test (>=5.4)", "pytest (>=6)", "pytest-checkdocs (>=2.4)", "p
 
 [[package]]
 name = "indico"
-version = "3.3.2"
+version = "3.3.3"
 description = "Indico is a full-featured conference lifecycle management and meeting/lecture scheduling tool"
 optional = false
 python-versions = "<3.13,>=3.12.2"
 files = [
-    {file = "indico-3.3.2-py3-none-any.whl", hash = "sha256:7c1b6282d9aeffd327eef003643f188e9d176e96ab7cdb27c362bd7b2eb150ed"},
+    {file = "indico-3.3.3-py3-none-any.whl", hash = "sha256:e235f73b4bf8ca61d3194aaa582a813e4db6c17e3064e3034a5cfae3d972214a"},
 ]
 
 [package.dependencies]
@@ -1470,7 +1470,7 @@ alembic = "1.13.1"
 amqp = "5.2.0"
 asttokens = "2.4.1"
 attrs = "23.2.0"
-authlib = "1.3.0"
+authlib = "1.3.1"
 babel = "2.14.0"
 bcrypt = "4.1.2"
 billiard = "4.2.0"
@@ -1502,7 +1502,7 @@ feedgen = "1.0.0"
 flask = "3.0.3"
 flask-babel = "4.0.0"
 flask-caching = "2.1.0"
-flask-cors = "4.0.0"
+flask-cors = "4.0.1"
 flask-limiter = "3.5.1"
 flask-marshmallow = "1.2.1"
 flask-migrate = "4.0.7"
@@ -1525,7 +1525,7 @@ indico-fonts = "1.2"
 ipython = "8.23.0"
 itsdangerous = "2.2.0"
 jedi = "0.19.1"
-jinja2 = "3.1.3"
+jinja2 = "3.1.4"
 jsonschema = "4.21.1"
 jsonschema-specifications = "2023.12.1"
 kombu = "5.3.7"
@@ -1570,7 +1570,7 @@ qrcode = "7.4.2"
 redis = "5.0.3"
 referencing = "0.34.0"
 reportlab = "4.1.0"
-requests = "2.31.0"
+requests = "2.32.2"
 rich = "13.7.1"
 rpds-py = "0.18.0"
 rsa = "4.9"
@@ -1588,13 +1588,14 @@ typing-extensions = "4.11.0"
 typing-inspect = "0.9.0"
 tzdata = "2024.1"
 ua-parser = "0.18.0"
-urllib3 = "1.26.18"
+urllib3 = "1.26.19"
 vine = "5.1.0"
+wallet-py3k = "0.0.4"
 wcwidth = "0.2.13"
 weasyprint = "61.2"
 webargs = "8.4.0"
 webencodings = "0.5.1"
-werkzeug = "3.0.2"
+werkzeug = "3.0.3"
 wrapt = "1.16.0"
 wtforms = "3.1.2"
 wtforms-dateutil = "0.1"
@@ -1604,7 +1605,7 @@ zipp = "3.18.1"
 zopfli = "0.2.3"
 
 [package.extras]
-dev = ["aiosmtpd (==1.4.5)", "alabaster (==0.7.16)", "anyio (==4.3.0)", "atpublic (==4.1.0)", "attrs (==23.2.0)", "babel (==2.14.0)", "blinker (==1.7.0)", "build (==1.2.1)", "certifi (==2024.2.2)", "charset-normalizer (==3.3.2)", "click (==8.1.7)", "colorama (==0.4.6)", "colorclass (==2.2.2)", "coverage (==7.4.4)", "docutils (==0.20.1)", "flake8 (==7.0.0)", "flake8-quotes (==3.4.0)", "flask (==3.0.3)", "flask-url-map-serializer (==0.0.1)", "freezegun (==1.4.0)", "greenlet (==3.0.3)", "h11 (==0.14.0)", "idna (==3.7)", "imagesize (==1.4.1)", "iniconfig (==2.0.0)", "isort (==5.13.2)", "itsdangerous (==2.2.0)", "jinja2 (==3.1.3)", "markupsafe (==2.1.5)", "mccabe (==0.7.0)", "migra (==3.0.1663481299)", "mirakuru (==2.5.2)", "packaging (==24.0)", "parso (==0.8.4)", "pep8-naming (==0.13.3)", "pip-tools (==7.4.1)", "plantweb (==1.2.1)", "pluggy (==1.4.0)", "port-for (==0.7.2)", "psutil (==5.9.8)", "pycodestyle (==2.11.1)", "pyflakes (==3.2.0)", "pygments (==2.17.2)", "pyproject-hooks (==1.0.0)", "pyquotes (==1.0.0)", "pytest (==8.1.1)", "pytest-cov (==5.0.0)", "pytest-localserver (==0.8.1)", "pytest-mock (==3.14.0)", "pytest-redis (==3.0.2)", "pytest-snapshot (==0.9.0)", "python-dateutil (==2.9.0.post0)", "pyupgrade (==3.15.2)", "pyyaml (==6.0.1)", "redis (==5.0.3)", "requests (==2.31.0)", "ruff (==0.4.0)", "schemainspect (==3.1.1663587362)", "six (==1.16.0)", "sniffio (==1.3.1)", "snowballstemmer (==2.2.0)", "sphinx (==7.3.5)", "sphinx-autobuild (==2024.4.16)", "sphinx-issues (==4.1.0)", "sphinx-reredirects (==0.1.3)", "sphinx-rtd-theme (==2.0.0)", "sphinxcontrib-applehelp (==1.0.8)", "sphinxcontrib-devhelp (==1.0.6)", "sphinxcontrib-htmlhelp (==2.0.5)", "sphinxcontrib-jquery (==4.1)", "sphinxcontrib-jsmath (==1.0.1)", "sphinxcontrib-mermaid (==0.9.2)", "sphinxcontrib-qthelp (==1.0.7)", "sphinxcontrib-serializinghtml (==1.1.10)", "sqlalchemy (==1.4.52)", "sqlbag (==0.1.1617247075)", "sqlparse (==0.5.0)", "starlette (==0.37.2)", "tokenize-rt (==5.2.0)", "unbeheader (==1.3.0)", "urllib3 (==1.26.18)", "uvicorn (==0.29.0)", "watchfiles (==0.21.0)", "websockets (==12.0)", "werkzeug (==3.0.2)", "wheel (==0.43.0)"]
+dev = ["aiosmtpd (==1.4.6)", "alabaster (==0.7.16)", "anyio (==4.3.0)", "atpublic (==4.1.0)", "attrs (==23.2.0)", "babel (==2.14.0)", "blinker (==1.7.0)", "build (==1.2.1)", "certifi (==2024.2.2)", "charset-normalizer (==3.3.2)", "click (==8.1.7)", "colorama (==0.4.6)", "colorclass (==2.2.2)", "coverage (==7.4.4)", "docutils (==0.20.1)", "flake8 (==7.0.0)", "flake8-quotes (==3.4.0)", "flask (==3.0.3)", "flask-url-map-serializer (==0.0.1)", "freezegun (==1.4.0)", "greenlet (==3.0.3)", "h11 (==0.14.0)", "idna (==3.7)", "imagesize (==1.4.1)", "iniconfig (==2.0.0)", "isort (==5.13.2)", "itsdangerous (==2.2.0)", "jinja2 (==3.1.4)", "markupsafe (==2.1.5)", "mccabe (==0.7.0)", "migra (==3.0.1663481299)", "mirakuru (==2.5.2)", "packaging (==24.0)", "parso (==0.8.4)", "pep8-naming (==0.13.3)", "plantweb (==1.2.1)", "pluggy (==1.4.0)", "port-for (==0.7.2)", "psutil (==5.9.8)", "pycodestyle (==2.11.1)", "pyflakes (==3.2.0)", "pygments (==2.17.2)", "pyproject-hooks (==1.0.0)", "pyquotes (==1.0.0)", "pytest (==8.1.1)", "pytest-cov (==5.0.0)", "pytest-localserver (==0.8.1)", "pytest-mock (==3.14.0)", "pytest-redis (==3.0.2)", "pytest-snapshot (==0.9.0)", "python-dateutil (==2.9.0.post0)", "pyupgrade (==3.15.2)", "pyyaml (==6.0.1)", "redis (==5.0.3)", "requests (==2.32.2)", "ruff (==0.4.10)", "schemainspect (==3.1.1663587362)", "six (==1.16.0)", "sniffio (==1.3.1)", "snowballstemmer (==2.2.0)", "sphinx (==7.3.5)", "sphinx-autobuild (==2024.4.16)", "sphinx-issues (==4.1.0)", "sphinx-reredirects (==0.1.3)", "sphinx-rtd-theme (==2.0.0)", "sphinxcontrib-applehelp (==1.0.8)", "sphinxcontrib-devhelp (==1.0.6)", "sphinxcontrib-htmlhelp (==2.0.5)", "sphinxcontrib-jquery (==4.1)", "sphinxcontrib-jsmath (==1.0.1)", "sphinxcontrib-mermaid (==0.9.2)", "sphinxcontrib-qthelp (==1.0.7)", "sphinxcontrib-serializinghtml (==1.1.10)", "sqlalchemy (==1.4.52)", "sqlbag (==0.1.1617247075)", "sqlparse (==0.5.0)", "starlette (==0.37.2)", "tokenize-rt (==5.2.0)", "unbeheader (==1.3.0)", "urllib3 (==1.26.19)", "uv (==0.2.15)", "uvicorn (==0.29.0)", "watchfiles (==0.21.0)", "websockets (==12.0)", "werkzeug (==3.0.3)", "wheel (==0.43.0)"]
 
 [[package]]
 name = "indico-fonts"
@@ -1699,13 +1700,13 @@ testing = ["Django", "attrs", "colorama", "docopt", "pytest (<7.0.0)"]
 
 [[package]]
 name = "jinja2"
-version = "3.1.3"
+version = "3.1.4"
 description = "A very fast and expressive template engine."
 optional = false
 python-versions = ">=3.7"
 files = [
-    {file = "Jinja2-3.1.3-py3-none-any.whl", hash = "sha256:7d6d50dd97d52cbc355597bd845fabfbac3f551e1f99619e39a35ce8c370b5fa"},
-    {file = "Jinja2-3.1.3.tar.gz", hash = "sha256:ac8bd6544d4bb2c9792bf3a159e80bba8fda7f07e81bc3aed565432d5925ba90"},
+    {file = "jinja2-3.1.4-py3-none-any.whl", hash = "sha256:bc5dd2abb727a5319567b7a813e6a2e7318c39f4f487cfe6c89c6f9c7d25197d"},
+    {file = "jinja2-3.1.4.tar.gz", hash = "sha256:4a3aee7acbbe7303aede8e9648d13b8bf88a429282aa6122a993f0ac800cb369"},
 ]
 
 [package.dependencies]
@@ -1909,7 +1910,6 @@ files = [
     {file = "lxml-5.2.1-cp37-cp37m-musllinux_1_2_x86_64.whl", hash = "sha256:9e2addd2d1866fe112bc6f80117bcc6bc25191c5ed1bfbcf9f1386a884252ae8"},
     {file = "lxml-5.2.1-cp37-cp37m-win32.whl", hash = "sha256:f51969bac61441fd31f028d7b3b45962f3ecebf691a510495e5d2cd8c8092dbd"},
     {file = "lxml-5.2.1-cp37-cp37m-win_amd64.whl", hash = "sha256:b0b58fbfa1bf7367dde8a557994e3b1637294be6cf2169810375caf8571a085c"},
-    {file = "lxml-5.2.1-cp38-cp38-macosx_10_9_universal2.whl", hash = "sha256:3e183c6e3298a2ed5af9d7a356ea823bccaab4ec2349dc9ed83999fd289d14d5"},
     {file = "lxml-5.2.1-cp38-cp38-macosx_10_9_x86_64.whl", hash = "sha256:804f74efe22b6a227306dd890eecc4f8c59ff25ca35f1f14e7482bbce96ef10b"},
     {file = "lxml-5.2.1-cp38-cp38-manylinux_2_12_i686.manylinux2010_i686.manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:08802f0c56ed150cc6885ae0788a321b73505d2263ee56dad84d200cab11c07a"},
     {file = "lxml-5.2.1-cp38-cp38-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:0f8c09ed18ecb4ebf23e02b8e7a22a05d6411911e6fabef3a36e4f371f4f2585"},
@@ -2772,13 +2772,13 @@ renderpm = ["rl-renderPM (>=4.0.3,<4.1)"]
 
 [[package]]
 name = "requests"
-version = "2.31.0"
+version = "2.32.2"
 description = "Python HTTP for Humans."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.8"
 files = [
-    {file = "requests-2.31.0-py3-none-any.whl", hash = "sha256:58cd2187c01e70e6e26505bca751777aa9f2ee0b7f4300988b709f44e013003f"},
-    {file = "requests-2.31.0.tar.gz", hash = "sha256:942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1"},
+    {file = "requests-2.32.2-py3-none-any.whl", hash = "sha256:fc06670dd0ed212426dfeb94fc1b983d917c4f9847c863f313c9dfaaffb7c23c"},
+    {file = "requests-2.32.2.tar.gz", hash = "sha256:dd951ff5ecf3e3b3aa26b40703ba77495dab41da839ae72ef3c8e5d8e2433289"},
 ]
 
 [package.dependencies]
@@ -3308,13 +3308,13 @@ files = [
 
 [[package]]
 name = "urllib3"
-version = "1.26.18"
+version = "1.26.19"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
 optional = false
-python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,>=2.7"
 files = [
-    {file = "urllib3-1.26.18-py2.py3-none-any.whl", hash = "sha256:34b97092d7e0a3a8cf7cd10e386f401b3737364026c45e622aa02903dffe0f07"},
-    {file = "urllib3-1.26.18.tar.gz", hash = "sha256:f8ecc1bba5667413457c529ab955bf8c67b45db799d159066261719e328580a0"},
+    {file = "urllib3-1.26.19-py2.py3-none-any.whl", hash = "sha256:37a0344459b199fce0e80b0d3569837ec6b6937435c5244e7fd73fa6006830f3"},
+    {file = "urllib3-1.26.19.tar.gz", hash = "sha256:3e3d753a8618b86d7de333b4223005f68720bcd6a7d2bcb9fbd2229ec7c1e429"},
 ]
 
 [package.extras]
@@ -3332,6 +3332,19 @@ files = [
     {file = "vine-5.1.0-py3-none-any.whl", hash = "sha256:40fdf3c48b2cfe1c38a49e9ae2da6fda88e4794c810050a728bd7413811fb1dc"},
     {file = "vine-5.1.0.tar.gz", hash = "sha256:8b62e981d35c41049211cf62a0a1242d8c1ee9bd15bb196ce38aefd6799e61e0"},
 ]
+
+[[package]]
+name = "wallet-py3k"
+version = "0.0.4"
+description = "Passbook file generator"
+optional = false
+python-versions = "*"
+files = [
+    {file = "wallet-py3k-0.0.4.tar.gz", hash = "sha256:9321d287ca876f32ba8052c69cbe9d509fc62c91d3342f3a8e35dafc03ea2332"},
+]
+
+[package.dependencies]
+six = ">=1.10.0"
 
 [[package]]
 name = "wcwidth"
@@ -3404,13 +3417,13 @@ files = [
 
 [[package]]
 name = "werkzeug"
-version = "3.0.2"
+version = "3.0.3"
 description = "The comprehensive WSGI web application library."
 optional = false
 python-versions = ">=3.8"
 files = [
-    {file = "werkzeug-3.0.2-py3-none-any.whl", hash = "sha256:3aac3f5da756f93030740bc235d3e09449efcf65f2f55e3602e1d851b8f48795"},
-    {file = "werkzeug-3.0.2.tar.gz", hash = "sha256:e39b645a6ac92822588e7b39a692e7828724ceae0b0d702ef96701f90e70128d"},
+    {file = "werkzeug-3.0.3-py3-none-any.whl", hash = "sha256:fc9645dc43e03e4d630d23143a04a7f947a9a3b5727cd535fdfe155a17cc48c8"},
+    {file = "werkzeug-3.0.3.tar.gz", hash = "sha256:097e5bfda9f0aba8da6b8545146def481d06aa7d3266e7448e2cccf67dd8bd18"},
 ]
 
 [package.dependencies]
