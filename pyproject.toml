@@ -70,7 +70,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "~=3.12.2"
-flask-multipass = {extras = ["saml"], version = "0.5.4"}
+flask-multipass = {extras = ["saml"], version = "0.10"}
 # The package version here can force an upgrade of indico when the plugin is used
 # thus we must only specify compatibility rather than pinning the exact version
 indico = ">=3.3.1, <4"
