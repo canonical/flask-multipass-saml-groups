@@ -8,7 +8,7 @@
 """initial migration
 
 Revision ID: ae387f5fc14a
-Revises: 
+Revises:
 Create Date: 2023-07-25 16:40:17.110259
 """
 
