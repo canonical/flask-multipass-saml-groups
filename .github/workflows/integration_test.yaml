@@ -10,5 +10,5 @@ jobs:
     with:
       pre-run-script: .github/test-pre-script.sh
       self-hosted-runner: true
-      self-hosted-runner-label: "noble"
+      self-hosted-runner-image: "noble"
       provider: lxd
