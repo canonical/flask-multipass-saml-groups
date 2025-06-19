@@ -69,7 +69,7 @@ license = "Apache-2.0 license"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "~=3.12.2"
+python = "~=3.13.5"
 flask-multipass = {extras = ["saml"], version = "0.10"}
 # The package version here can force an upgrade of indico when the plugin is used
 # thus we must only specify compatibility rather than pinning the exact version
