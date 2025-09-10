@@ -1540,12 +1540,12 @@ type = ["pytest-mypy"]
 
 [[package]]
 name = "indico"
-version = "3.3.7"
+version = "3.3.8"
 description = "Indico is a full-featured conference lifecycle management and meeting/lecture scheduling tool"
 optional = false
 python-versions = "<3.13,>=3.12.2"
 files = [
-    {file = "indico-3.3.7-py3-none-any.whl", hash = "sha256:cc6ab5bb73090ce53ada321cec690828b61061113fe8d201aaa8ec8eabbcf7ad"},
+    {file = "indico-3.3.8-py3-none-any.whl", hash = "sha256:7f53384e9a63b47d412b687856880a243bd356debb56296fa69d9e00c0f42f87"},
 ]
 
 [package.dependencies]
@@ -1640,7 +1640,7 @@ pycparser = "2.22"
 pydyf = "0.11.0"
 pygments = "2.18.0"
 pynpm = "0.2.0"
-pypdf = "5.1.0"
+pypdf = "6.0.0"
 pyphen = "0.17.0"
 python-dateutil = "2.9.0.post0"
 pytz = "2025.2"
@@ -1688,7 +1688,7 @@ zipp = "3.21.0"
 zopfli = "0.2.3.post1"
 
 [package.extras]
-dev = ["aiosmtpd (==1.4.6)", "alabaster (==1.0.0)", "anyio (==4.7.0)", "atpublic (==5.0)", "attrs (==24.2.0)", "babel (==2.16.0)", "blinker (==1.9.0)", "build (==1.2.2.post1)", "certifi (==2024.8.30)", "charset-normalizer (==3.4.0)", "click (==8.1.7)", "colorama (==0.4.6)", "colorclass (==2.2.2)", "coverage (==7.6.9)", "docutils (==0.21.2)", "flask (==3.1.1)", "flask-url-map-serializer (==0.0.1)", "freezegun (==1.5.1)", "greenlet (==3.1.1)", "h11 (==0.16.0)", "hatch-requirements-txt (==0.4.1)", "hatchling (==1.27.0)", "idna (==3.10)", "imagesize (==1.4.1)", "iniconfig (==2.0.0)", "isort (==5.13.2)", "itsdangerous (==2.2.0)", "jinja2 (==3.1.6)", "markupsafe (==3.0.2)", "migra (==3.0.1663481299)", "mirakuru (==2.5.3)", "packaging (==24.2)", "pathspec (==0.12.1)", "plantweb (==1.3.0)", "pluggy (==1.5.0)", "port-for (==0.7.4)", "psutil (==6.1.0)", "pygments (==2.18.0)", "pyproject-hooks (==1.2.0)", "pytest (==8.3.4)", "pytest-cov (==6.0.0)", "pytest-localserver (==0.9.0.post0)", "pytest-mock (==3.14.0)", "pytest-redis (==3.1.3)", "pytest-snapshot (==0.9.0)", "python-dateutil (==2.9.0.post0)", "pyyaml (==6.0.2)", "redis (==5.2.1)", "requests (==2.32.4)", "responses (==0.25.3)", "ruff (==0.12.0)", "schemainspect (==3.1.1663587362)", "six (==1.17.0)", "sniffio (==1.3.1)", "snowballstemmer (==2.2.0)", "sphinx (==8.1.3)", "sphinx-autobuild (==2024.10.3)", "sphinx-issues (==5.0.0)", "sphinx-reredirects (==0.1.5)", "sphinx-rtd-theme (==3.0.2)", "sphinxcontrib-applehelp (==2.0.0)", "sphinxcontrib-devhelp (==2.0.0)", "sphinxcontrib-htmlhelp (==2.1.0)", "sphinxcontrib-jquery (==4.1)", "sphinxcontrib-jsmath (==1.0.1)", "sphinxcontrib-mermaid (==1.0.0)", "sphinxcontrib-qthelp (==2.0.0)", "sphinxcontrib-serializinghtml (==2.0.0)", "sqlalchemy (==1.4.54)", "sqlbag (==0.1.1617247075)", "sqlparse (==0.5.3)", "starlette (==0.41.3)", "tomlkit (==0.13.2)", "trove-classifiers (==2024.10.21.16)", "typing-extensions (==4.12.2)", "unbeheader (==1.4.0)", "urllib3 (==2.5.0)", "uv (==0.7.13)", "uvicorn (==0.32.1)", "watchfiles (==1.0.0)", "websockets (==14.1)", "werkzeug (==3.1.3)", "wheel (==0.45.1)"]
+dev = ["aiosmtpd (==1.4.6)", "alabaster (==1.0.0)", "anyio (==4.7.0)", "atpublic (==5.0)", "attrs (==24.2.0)", "babel (==2.16.0)", "blinker (==1.9.0)", "build (==1.2.2.post1)", "certifi (==2024.8.30)", "charset-normalizer (==3.4.0)", "click (==8.1.7)", "colorama (==0.4.6)", "colorclass (==2.2.2)", "coverage (==7.6.9)", "docker (==7.1.0)", "docutils (==0.21.2)", "flask (==3.1.1)", "flask-url-map-serializer (==0.0.1)", "freezegun (==1.5.1)", "greenlet (==3.1.1)", "h11 (==0.16.0)", "hatch-requirements-txt (==0.4.1)", "hatchling (==1.27.0)", "idna (==3.10)", "imagesize (==1.4.1)", "iniconfig (==2.0.0)", "isort (==5.13.2)", "itsdangerous (==2.2.0)", "jinja2 (==3.1.6)", "markupsafe (==3.0.2)", "migra (==3.0.1663481299)", "mirakuru (==2.5.3)", "packaging (==24.2)", "pathspec (==0.12.1)", "plantweb (==1.3.0)", "pluggy (==1.5.0)", "port-for (==0.7.4)", "psutil (==6.1.0)", "pygments (==2.18.0)", "pyproject-hooks (==1.2.0)", "pytest (==8.3.4)", "pytest-cov (==6.0.0)", "pytest-localserver (==0.9.0.post0)", "pytest-mock (==3.14.0)", "pytest-redis (==3.1.3)", "pytest-snapshot (==0.9.0)", "python-dateutil (==2.9.0.post0)", "pyyaml (==6.0.2)", "redis (==5.2.1)", "requests (==2.32.4)", "responses (==0.25.3)", "ruff (==0.12.8)", "schemainspect (==3.1.1663587362)", "six (==1.17.0)", "sniffio (==1.3.1)", "snowballstemmer (==2.2.0)", "sphinx (==8.1.3)", "sphinx-autobuild (==2024.10.3)", "sphinx-issues (==5.0.0)", "sphinx-reredirects (==0.1.5)", "sphinx-rtd-theme (==3.0.2)", "sphinxcontrib-applehelp (==2.0.0)", "sphinxcontrib-devhelp (==2.0.0)", "sphinxcontrib-htmlhelp (==2.1.0)", "sphinxcontrib-jquery (==4.1)", "sphinxcontrib-jsmath (==1.0.1)", "sphinxcontrib-mermaid (==1.0.0)", "sphinxcontrib-qthelp (==2.0.0)", "sphinxcontrib-serializinghtml (==2.0.0)", "sqlalchemy (==1.4.54)", "sqlbag (==0.1.1617247075)", "sqlparse (==0.5.3)", "starlette (==0.47.2)", "tomlkit (==0.13.2)", "trove-classifiers (==2024.10.21.16)", "typing-extensions (==4.12.2)", "unbeheader (==1.4.0)", "urllib3 (==2.5.0)", "uv (==0.8.6)", "uvicorn (==0.32.1)", "watchfiles (==1.0.0)", "websockets (==14.1)", "werkzeug (==3.1.3)", "wheel (==0.45.1)"]
 
 [[package]]
 name = "indico-fonts"
@@ -2587,19 +2587,19 @@ tests = ["pytest-black (>=0.3.0,<0.3.10)", "pytest-cache (>=1.0)", "pytest-inven
 
 [[package]]
 name = "pypdf"
-version = "5.1.0"
+version = "6.0.0"
 description = "A pure-python PDF library capable of splitting, merging, cropping, and transforming PDF files"
 optional = false
-python-versions = ">=3.8"
+python-versions = ">=3.9"
 files = [
-    {file = "pypdf-5.1.0-py3-none-any.whl", hash = "sha256:3bd4f503f4ebc58bae40d81e81a9176c400cbbac2ba2d877367595fb524dfdfc"},
-    {file = "pypdf-5.1.0.tar.gz", hash = "sha256:425a129abb1614183fd1aca6982f650b47f8026867c0ce7c4b9f281c443d2740"},
+    {file = "pypdf-6.0.0-py3-none-any.whl", hash = "sha256:56ea60100ce9f11fc3eec4f359da15e9aec3821b036c1f06d2b660d35683abb8"},
+    {file = "pypdf-6.0.0.tar.gz", hash = "sha256:282a99d2cc94a84a3a3159f0d9358c0af53f85b4d28d76ea38b96e9e5ac2a08d"},
 ]
 
 [package.extras]
 crypto = ["cryptography"]
 cryptodome = ["PyCryptodome"]
-dev = ["black", "flit", "pip-tools", "pre-commit (<2.18.0)", "pytest-cov", "pytest-socket", "pytest-timeout", "pytest-xdist", "wheel"]
+dev = ["black", "flit", "pip-tools", "pre-commit", "pytest-cov", "pytest-socket", "pytest-timeout", "pytest-xdist", "wheel"]
 docs = ["myst_parser", "sphinx", "sphinx_rtd_theme"]
 full = ["Pillow (>=8.0.0)", "cryptography"]
 image = ["Pillow (>=8.0.0)"]
