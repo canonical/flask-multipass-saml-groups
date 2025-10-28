@@ -12,3 +12,8 @@ jobs:
       self-hosted-runner: true
       self-hosted-runner-image: "noble"
       provider: lxd
+  allure-report:
+    if: always() && !cancelled()
+    needs:
+      - integration-tests
+    uses: canonical/operator-workflows/.github/workflows/allure_report.yaml@main
