@@ -2,6 +2,7 @@
 #  See LICENSE file for licensing details.
 
 """Integration tests which check if the session is properly invalidated after a given time."""
+
 from datetime import datetime, timedelta, timezone
 from secrets import token_hex
 

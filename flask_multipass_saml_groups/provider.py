@@ -2,6 +2,7 @@
 #  See LICENSE file for licensing details.
 #
 """SAML Groups Identity Provider."""
+
 import operator
 from datetime import datetime, timedelta, timezone
 from typing import Dict, Iterable, Optional, Type

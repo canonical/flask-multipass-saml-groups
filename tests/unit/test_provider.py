@@ -2,6 +2,7 @@
 #  See LICENSE file for licensing details.
 
 """Unit tests for the identity provider."""
+
 from copy import deepcopy
 from datetime import datetime, timedelta, timezone
 from random import randint

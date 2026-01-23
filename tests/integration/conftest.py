@@ -2,6 +2,7 @@
 #  See LICENSE file for licensing details.
 
 """Common fixtures for integration tests."""
+
 from secrets import token_hex
 from unittest.mock import Mock
 
