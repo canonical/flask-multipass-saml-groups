@@ -2,6 +2,7 @@
 #  See LICENSE file for licensing details.
 
 """Unit tests for the sql group."""
+
 from secrets import token_hex
 
 import pytest

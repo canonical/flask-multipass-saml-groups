@@ -2,6 +2,7 @@
 #  See LICENSE file for licensing details.
 
 """Integration tests which check if the provider works as expected."""
+
 from secrets import token_hex
 from typing import List
 

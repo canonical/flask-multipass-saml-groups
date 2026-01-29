@@ -3,7 +3,6 @@
 
 """Unit tests for the sql group provider."""
 
-
 from secrets import token_hex
 
 import pytest
