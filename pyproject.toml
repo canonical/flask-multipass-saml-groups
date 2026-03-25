@@ -70,7 +70,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 # Python version is constrained to 3.12.x because Indico requires <3.13,>=3.12.2
-python = ">=3.14.3,<3.15"
+python = ">=3.12.2,<3.13"
 flask-multipass = {extras = ["saml"], version = "0.11"}
 # The package version here can force an upgrade of indico when the plugin is used
 # thus we must only specify compatibility rather than pinning the exact version
